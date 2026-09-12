@@ -1,0 +1,150 @@
+--- a/shell/Ui/WidgetButton.qml
++++ b/shell/Ui/WidgetButton.qml
+@@ -3,6 +3,13 @@
+ 
+ Item {
+   id: root
++
++  property string accessibleName: ""
++  Accessible.role: Accessible.Button
++  Accessible.name: accessibleName || tooltipText || text
++  Accessible.description: tooltipText
++  Accessible.ignored: !visible || concealed || !interactive || !pressable
++  Accessible.onPressAction: if (visible && enabled && interactive && pressable && !concealed) root.triggerPress(Qt.LeftButton)
+ 
+   property var bar: null
+   property string text: ""
+--- a/shell/Ui/Button.qml
++++ b/shell/Ui/Button.qml
+@@ -19,6 +19,12 @@
+ // can update state on mouse enter/leave.
+ BorderSurface {
+   id: root
++
++  Accessible.role: Accessible.Button
++  Accessible.name: text || tooltipText
++  Accessible.description: tooltipText
++  Accessible.ignored: !visible
++  Accessible.onPressAction: if (visible && enabled) root.clicked()
+ 
+   property string text: ""
+   property string iconText: ""
+--- a/shell/plugins/menu/BarWidget.qml
++++ b/shell/plugins/menu/BarWidget.qml
+@@ -10,6 +10,7 @@
+ 
+   WidgetButton {
+     id: button
++    accessibleName: "Omarchy menu"
+     anchors.fill: parent
+     bar: root.bar
+     text: "\ue900"
+--- a/shell/plugins/bar/widgets/Workspaces.qml
++++ b/shell/plugins/bar/widgets/Workspaces.qml
+@@ -59,6 +59,9 @@
+         readonly property bool focused: Hyprland.focusedWorkspace !== null && Hyprland.focusedWorkspace.id === modelData
+ 
+         bar: root.bar
++        accessibleName: "Workspace " + modelData
++        Accessible.role: Accessible.PageTab
++        Accessible.selected: focused
+         text: focused ? "\uDB85\uDCFB" : (modelData === 10 ? "0" : String(modelData))
+         opacity: occupied || focused ? 1 : 0.5
+         horizontalMargin: 6
+--- a/shell/plugins/panels/clock/BarWidget.qml
++++ b/shell/plugins/panels/clock/BarWidget.qml
+@@ -153,6 +153,7 @@
+     fixedHeight: root.vertical ? root.verticalLines.length * Style.bar.iconSlot : -1
+     horizontalMargin: 8.75
+     verticalPadding: 8.75
++    accessibleName: "Clock " + root.displayText
+     tooltipText: "Right-click to toggle format"
+ 
+     onPressed: function(b) {
+--- a/shell/plugins/menu/Menu.qml
++++ b/shell/plugins/menu/Menu.qml
+@@ -1097,11 +1097,18 @@
+ 
+     MouseArea {
+       anchors.fill: parent
++      Accessible.role: Accessible.Button
++      Accessible.name: "Close menu"
++      Accessible.ignored: !root.opened
++      Accessible.onPressAction: if (root.opened) root.cancel()
+       onClicked: root.cancel()
+     }
+ 
+     BorderSurface {
+       id: card
++      Accessible.role: Accessible.PopupMenu
++      Accessible.name: root.dmenuActive ? root.dmenuPrompt : "Omarchy menu"
++      Accessible.ignored: !root.opened
+       width: root.cardWidth
+       height: Math.min(root.cardHeight, panel.height - Style.gapsOut - panel.effectiveCardTop)
+       radius: root.cornerRadius
+@@ -1198,17 +1205,40 @@
+           radius: root.cornerRadius
+           color: "transparent"
+ 
+-          Text {
+-            textFormat: Text.PlainText
++          TextInput {
++            id: searchInput
+             anchors.left: parent.left
+             anchors.right: parent.right
+             anchors.verticalCenter: parent.verticalCenter
+-            text: root.filterText || (root.dmenuActive ? (root.dmenuPrompt + "…") : ((root.item(root.activeMenu) ? (root.item(root.activeMenu).title || root.item(root.activeMenu).label) : "Go") + "…"))
++            text: root.filterText
++            onTextChanged: if (text !== root.filterText) root.setFilter(text)
+             color: root.foreground
+-            opacity: root.filterText ? 1 : 0.58
+             font.family: root.fontFamily
+             font.pixelSize: Style.font.heading
+-            elide: Text.ElideRight
++            clip: true
++            selectByMouse: true
++            Accessible.name: root.dmenuActive ? root.dmenuPrompt : "Search menu"
++            Accessible.ignored: !root.opened
++            Keys.onEscapePressed: {
++              if (root.filterText) root.setFilter("")
++              else root.cancel()
++            }
++            Keys.onUpPressed: root.select(-1)
++            Keys.onDownPressed: root.select(1)
++            Keys.onReturnPressed: root.activateIndex(root.selectedIndex)
++            Keys.onEnterPressed: root.activateIndex(root.selectedIndex)
++
++            Text {
++              anchors.fill: parent
++              visible: searchInput.text.length === 0
++              Accessible.ignored: true
++              textFormat: Text.PlainText
++              text: root.dmenuActive ? (root.dmenuPrompt + "…") : ((root.item(root.activeMenu) ? (root.item(root.activeMenu).title || root.item(root.activeMenu).label) : "Go") + "…")
++              color: root.foreground
++              opacity: 0.58
++              font: searchInput.font
++              elide: Text.ElideRight
++            }
+           }
+ 
+         }
+@@ -1261,6 +1291,19 @@
+               required property string action
+               required property int childCount
+               required property bool disabled
++
++              Accessible.role: Accessible.MenuItem
++              Accessible.name: row.label
++              Accessible.description: row.detail
++              Accessible.ignored: !root.opened
++              Accessible.selected: row.hasCursor
++              Accessible.onPressAction: {
++                if (!root.opened || row.disabled) return
++                root.cursorActive = true
++                root.selectedIndex = row.index
++                root.activateIndex(row.index, true)
++              }
++              enabled: !row.disabled
+ 
+               readonly property bool hasCursor: root.cursorActive && row.index === root.selectedIndex
+               readonly property bool isApp: row.kind === "app"

@@ -8,6 +8,7 @@ Turnip or libhybris.
 
 Application ID: `io.taowen.arlinux.omarchy`. Its rootfs, package database and
 home directory belong to this APK, independently of Arlinux Arch and Debian.
+Arlinux Arch keeps its separate plain xterm startup; this product does not change it.
 Startup shows the Omarchy wallpaper and panel, with no terminal window.
 The application menu includes Thunar, Neovim, an optional themed XTerm and the
 shared Android WebView browser. Android applications can be opened with `arlinux-app PACKAGE`.
@@ -71,6 +72,22 @@ on each configuration reload. Current theme files live in
 
 Logs are in `$XDG_RUNTIME_DIR/omarchy-shell.log`, `omarchy-launch.log`. Display time follows Android's timezone.
 
+## Accessibility
+
+The panel and application menu expose standard AT-SPI controls. Workspace tabs
+are named `Workspace 1`, `Workspace 2`, etc. and expose their selected state.
+`Omarchy menu`, menu entries and `Close menu` support the Action interface;
+`Search menu` supports EditableText for filtering the application list.
+The session enables Qt accessibility and includes Python's `pyatspi` bindings.
+
+Run the accessibility device check below with an empty desktop and closed menu.
+It switches workspaces, opens and closes the menu, edits and clears search,
+and launches a terminal by its accessible name. Desktop actions use AT-SPI;
+Hyprland queries observe the result and close the test terminal.
+This coverage does not certify every upstream plugin or Android TalkBack
+navigation of the Linux desktop. The Android application/browser bridge is
+separate.
+
 ## Android adaptations
 
 `profile.json` starts a supervised D-Bus desktop session. Hyprland's executor
@@ -113,6 +130,8 @@ commands during startup. Other clone modes and profiles retain their defaults.
 
 ```sh
 python3 tests/test-repositories.py
+python3 tests/test-accessibility-patch.py
+ARLINUX_DIR=third_party/arlinux tests/test-accessibility-device.py --serial DEVICE
 ARLINUX_DIR=third_party/arlinux tests/test-desktop-device.py --serial DEVICE
 ARLINUX_DIR=third_party/arlinux tests/test-pacman-device.py --serial DEVICE
 third_party/arlinux/tests/test-product-device.py --product . --serial DEVICE

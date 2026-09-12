@@ -1,0 +1,33 @@
+#!/usr/bin/python3
+"""Apply the pinned shell adaptation without patch's in-place metadata updates."""
+import os
+from pathlib import Path
+import re
+import subprocess
+import tempfile
+
+root = Path(os.environ['OMARCHY_PATH'])
+diff = (Path(os.environ['BIONICX_ROOTFS']) /
+        'usr/lib/arlinux/guest/shell-accessibility.patch').read_text()
+command = ['patch', '--force', '--silent', '--fuzz=0', '-p1', '-d', str(root)]
+# --force prevents patch from silently undoing our explicit reverse check.
+if subprocess.run(command + ['--reverse', '--dry-run'], input=diff, text=True,
+                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0:
+    raise SystemExit(0)
+subprocess.run(command + ['--forward', '--dry-run'], input=diff, text=True, check=True)
+# patch's in-place metadata updates fail in this guest. Render each file to
+# an explicit output, then replace its contents without changing its owner.
+# Stage every result first so a mismatched source cannot be partly adapted.
+with tempfile.TemporaryDirectory(prefix='omarchy-a11y-') as directory:
+    staged = []
+    for index, chunk in enumerate(re.split(r'(?=^--- a/)', diff, flags=re.M)):
+        if not chunk.strip():
+            continue
+        relative = chunk.splitlines()[0].removeprefix('--- a/')
+        target = root / relative
+        output = Path(directory) / str(index)
+        subprocess.run(command + ['--forward', '-o', str(output)],
+                       input=chunk, text=True, check=True)
+        staged.append((target, output))
+    for target, output in staged:
+        target.write_bytes(output.read_bytes())

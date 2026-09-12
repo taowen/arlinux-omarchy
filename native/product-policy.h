@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define ARLINUX_PRODUCT_ENVIRONMENT
+#include "qt-accessibility.h"
 
 static inline void arlinux_product_environment(void) {
     const char *exe = bionicx_getenv("BIONICX_EXECFN");

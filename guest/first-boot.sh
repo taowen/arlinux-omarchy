@@ -66,7 +66,7 @@ if ! pacman -Q archlinuxcn-keyring >/dev/null 2>&1; then
     cn_setup=1
 fi
 set -- xterm ttf-dejavu noto-fonts-cjk fontconfig xorg-xrdb dbus \
-    at-spi2-core wayland libx11 libxcb libxxf86vm \
+    at-spi2-core python-dbus python-atspi patch wayland libx11 libxcb libxxf86vm \
     quickshell qt6-declarative qt6-svg qt6-wayland qt6-multimedia qt6-5compat qt6-imageformats \
     inotify-tools hyprutils hyprwire re2 readline jq socat imagemagick wl-clipboard libnotify \
     ttf-jetbrains-mono-nerd noto-fonts bash-completion xdg-utils xdg-terminal-exec neovim thunar papirus-icon-theme

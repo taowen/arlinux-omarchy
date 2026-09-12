@@ -4,7 +4,9 @@ export OMARCHY_PATH="$BIONICX_ROOTFS/usr/share/omarchy"
 export PATH="$BIONICX_ROOTFS/usr/lib/arlinux/guest/bin:$OMARCHY_PATH/bin:$PATH"
 export XDG_CONFIG_HOME="$HOME/.config" XDG_STATE_HOME="$HOME/.local/state" XDG_CACHE_HOME="$HOME/.cache"
 export WAYLAND_DISPLAY=wayland-0
+export QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1
 chmod +x "$BIONICX_ROOTFS"/usr/lib/arlinux/guest/bin/*
+omarchy-apply-accessibility
 # Product menu uses the upstream renderer and supported Android desktop actions.
 cp "$BIONICX_ROOTFS/usr/lib/arlinux/guest/menu.json" "$OMARCHY_PATH/default/omarchy/omarchy-menu.jsonc"
 mkdir -p "$XDG_CONFIG_HOME" "$XDG_STATE_HOME/omarchy/current" "$XDG_CACHE_HOME"

@@ -17,6 +17,7 @@ handle or desktop IME toggle. Physical key events and pointer input remain.
 | Normal APK startup and empty desktop | Pass | Pass, including a second cold-start run |
 | Panel, menu and application list | Pass | Pass |
 | Workspace 2 → 1 | Pass | Pass |
+| AT-SPI tree, named actions, selected tabs, editable search and app launch | Pass | Pass |
 | Thunar, WebView Example Domain, XTerm | Pass | Pass |
 | Catppuccin → Tokyo Night | Pass | Pass |
 | Hardware renderer | Zink / Turnip, GL 4.6 | Zink / libhybris, GL 2.1 |
@@ -24,10 +25,11 @@ handle or desktop IME toggle. Physical key events and pointer input remain.
 | UID, sanitized exec, mprotect and PATH tests | Pass | Pass |
 | Fork/exec isolation and pidfd regression | Skipped: Linux 4.19 lacks pidfd | Pass |
 
-The installed APK is 667419282 bytes, SHA-256
-`91dde8c9265eaeca7a25224d90fef56d212561da5c2e5204c05b78f38a3f47fb`.
-The runtime checks use the same runtime libraries as the final APK; the final
-Android launcher additionally includes dynamic profile argument allocation.
+The installed APK is 667293240 bytes, SHA-256
+`c79f12fe993260aba8b850b46a3b90d88842b6a0f2daaf1a9dd14a854c1f75ca`.
+The distribution/runtime checks above were verified for the preceding desktop
+build. This accessibility build adds a Quickshell-only Qt initialization hook;
+its desktop and AT-SPI checks use the final installed APK.
 No diagnostic preload or manual guest session is used for desktop acceptance.
 Repository bootstrap policy tests also pass.
 
@@ -41,6 +43,8 @@ Original screenshots: [Redmi desktop](docs/screenshots/redmi-desktop.png),
 ARLINUX_DIR=third_party/arlinux tests/test-desktop-device.py --serial DEVICE
 third_party/arlinux/tests/test-product-device.py --product . --serial DEVICE
 python3 tests/test-repositories.py
+python3 tests/test-accessibility-patch.py
+ARLINUX_DIR=third_party/arlinux tests/test-accessibility-device.py --serial DEVICE
 ```
 
 The desktop test restarts this APK and closes its test application windows.
@@ -49,15 +53,30 @@ to `build/desktop-DEVICE/`; distribution/runtime identity checks are separate.
 
 ## Accessibility
 
-AT-SPI transport is present, but Omarchy's shell accessibility is not ready.
-On the Redmi test session, enabling `org.a11y.Status.ScreenReaderEnabled`
-registered the Qt 6.11.2 `quickshell` application with the accessibility bus.
-With the menu open, `/org/a11y/atspi/accessible/root` still reported
-`ChildCount = 0`. The panel/menu therefore cannot currently be operated through
-named AT-SPI controls. Desktop acceptance uses the public Hyprland/Quickshell
-IPC interfaces and screenshots, and does not claim accessibility coverage.
-Android browser/application accessibility support in Arlinux is a separate
-bridge and does not supply the missing Quickshell widget tree.
+The normal APK exposes Quickshell's panel and menu through AT-SPI on both
+devices. `tests/test-accessibility-device.py` performs named Action calls to
+switch workspaces 2 → 1 (checking selected state), open and close the menu,
+enter Apps, and launch Omarchy Terminal. EditableText filters, clears and
+refilters the application list. The test checks that closing the menu removes
+its entries from the accessible tree and that the terminal actually maps.
+The [filtered menu screenshot](docs/screenshots/redmi-accessibility-search.png)
+was captured after an AT-SPI EditableText operation and visually inspected.
+No coordinate clicks or Quickshell IPC perform these test actions. Hyprland
+IPC is used for observations and closing the test terminal.
+
+Quickshell 0.3.1 destroys a temporary QCoreApplication before creating its
+QGuiApplication. Qt's cleanup removed Qt Quick's accessibility factory, leaving
+the AT-SPI application with zero children. This product's runtime registers
+Qt Quick's exported module initializer with Qt's application startup hook,
+restricted to the Quickshell process. The packaged Qt and Quickshell binaries
+remain unchanged. A product QML patch supplies names, roles, actions and a real
+editable search field. It is checked in full before application and is
+idempotent; conflicting user changes stop application without partial edits.
+
+Coverage is the panel, workspaces and application menu; other upstream plugins
+and Android TalkBack navigation are not certified. Android browser/application
+accessibility remains a separate bridge. Arlinux Arch retains its independent
+plain xterm entry and has no changes from this fix.
 
 ## Platform boundaries
 
