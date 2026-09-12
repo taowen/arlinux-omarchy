@@ -1,0 +1,19 @@
+{
+  "applicationId": "io.taowen.arlinux.omarchy",
+  "name": "Arlinux Omarchy",
+  "versionCode": 1,
+  "versionName": "0.1.0",
+  "glibcVersion": "2.43",
+  "libraryDirectories": [
+    "usr/lib"
+  ],
+  "requiredFiles": [
+    "usr/bin/pacman",
+    "etc/pacman.conf"
+  ],
+  "environment": {
+    "GCONV_PATH": "${RUNTIME}/usr/lib/gconv",
+    "GIO_MODULE_DIR": "${RUNTIME}/usr/lib/gio/modules",
+    "LOCPATH": "${RUNTIME}/usr/lib/locale"
+  }
+}

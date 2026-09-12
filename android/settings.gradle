@@ -1,0 +1,21 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://www.jitpack.io' }
+    }
+}
+def core = new File(System.getenv('ARLINUX_DIR') ?: "$settingsDir/../third_party/arlinux").canonicalFile
+gradle.ext.arlinuxDir = core
+rootProject.name = 'arlinux-omarchy'
+include ':app', ':desktop'
+project(':desktop').projectDir = new File(core, 'android/app')
+apply from: new File(core, 'tools/gradle/hosted-modules.settings.gradle')

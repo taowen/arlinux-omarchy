@@ -1,0 +1,43 @@
+{
+  "$schema": "third_party/arlinux/schemas/profile.schema.json",
+  "schemaVersion": 3,
+  "id": "omarchy",
+  "name": "Omarchy",
+  "display": {
+    "dpi": 144,
+    "socket": "filesystem"
+  },
+  "launch": {
+    "executable": "${RUNTIME}/usr/bin/dbus-run-session",
+    "workingDirectory": "${HOME}",
+    "arguments": [
+      "--",
+      "${RUNTIME}/usr/bin/bash",
+      "${RUNTIME}/usr/lib/arlinux/guest/session.sh"
+    ],
+    "environment": {
+      "DISPLAY": "${DISPLAY}",
+      "HOME": "${HOME}",
+      "TMPDIR": "${FILES}/runtime",
+      "XDG_RUNTIME_DIR": "${FILES}/runtime",
+      "XKB_CONFIG_ROOT": "${FILES}/xkb",
+      "GDK_BACKEND": "wayland,x11",
+      "XDG_DATA_DIRS": "${RUNTIME}/usr/share",
+      "QT_QPA_PLATFORM": "wayland",
+      "SHELL": "${RUNTIME}/bin/bash",
+      "TERM": "xterm-256color",
+      "PATH": "${RUNTIME}/usr/lib/arlinux/guest/bin:${RUNTIME}/usr/share/omarchy/bin:${RUNTIME}/usr/bin:${RUNTIME}/usr/sbin:/system/bin",
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8",
+      "QSG_RHI_BACKEND": "opengl",
+      "BIONICX_FORK_EXEC": "1",
+      "OMARCHY_PATH": "${RUNTIME}/usr/share/omarchy",
+      "XDG_CURRENT_DESKTOP": "Hyprland",
+      "XDG_SESSION_TYPE": "wayland",
+      "XDG_CONFIG_HOME": "${HOME}/.config",
+      "XDG_STATE_HOME": "${HOME}/.local/state",
+      "XDG_CACHE_HOME": "${HOME}/.cache",
+      "QSG_INFO": "1"
+    }
+  }
+}

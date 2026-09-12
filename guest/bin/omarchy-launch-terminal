@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+args=()
+while (( $# )); do
+  case $1 in
+    --working-directory=*) cd "${1#*=}"; shift ;;
+    --working-directory) cd "$2"; shift 2 ;;
+    -e) args+=("$@"); break ;;
+    *) args+=("$1"); shift ;;
+  esac
+done
+if (( ${#args[@]} == 0 )); then args=(-e "$SHELL" -i); fi
+exec xterm -ut -u8 -fa 'JetBrainsMono Nerd Font' -fs 14 \
+  -bg "$(omarchy-theme-color background)" -fg "$(omarchy-theme-color foreground)" \
+  -title 'Arlinux Omarchy' "${args[@]}"

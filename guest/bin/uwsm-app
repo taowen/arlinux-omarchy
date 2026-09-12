@@ -1,0 +1,4 @@
+#!/bin/bash
+# Android's desktop session already supervises applications.
+[[ ${1:-} == -- ]] && shift
+exec "$@"

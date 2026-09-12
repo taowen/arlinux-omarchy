@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Omarchy Terminal
+Exec=omarchy-launch-terminal
+Icon=utilities-terminal
+Terminal=false
+Categories=System;TerminalEmulator;
+X-TerminalArgExec=-e
+X-TerminalArgTitle=-title
+X-TerminalArgAppId=-class
+X-TerminalArgDir=--working-directory

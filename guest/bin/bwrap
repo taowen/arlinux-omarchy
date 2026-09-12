@@ -1,0 +1,13 @@
+#!/bin/bash
+# Android denies access to namespace setup before bubblewrap reaches unshare.
+# Normalize that permission failure so callers such as Glycin can detect the
+# unavailable nested sandbox, as they do for a denied unshare syscall.
+error=$(mktemp "${XDG_RUNTIME_DIR:?}/bwrap-error.XXXXXX")
+trap 'rm -f "$error"' EXIT
+"$BIONICX_ROOTFS/usr/bin/bwrap" "$@" 2> "$error"
+status=$?
+cat "$error" >&2
+if (( status != 0 )) && grep -q "Can't read /proc/sys/kernel/overflowuid: Permission denied" "$error"; then
+  echo 'bwrap: No permissions to create a new namespace inside the Android app sandbox' >&2
+fi
+exit "$status"
