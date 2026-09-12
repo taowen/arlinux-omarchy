@@ -42,19 +42,29 @@ def find(name, role=None):
 def until(fn):
     end = time.monotonic() + 20
     while time.monotonic() < end:
-        value = fn()
-        if value:
-            return value
+        try:
+            value = fn()
+            if value:
+                return value
+        except GLib.Error:
+            # Menu transitions can replace accessible objects mid-query.
+            # Re-query the tree; action execution itself is never retried.
+            pass
         time.sleep(.1)
     raise AssertionError('Timed out waiting for ' + str(fn))
 def control(name, role=None):
     return until(lambda: find(name, role))
 actions = []
 def press(name, role=None):
-    node = control(name, role)
-    action = node.queryAction()
-    index = next(i for i in range(action.nActions)
-                 if action.getName(i).lower() in ('press', 'click', 'activate'))
+    def ready_action():
+        node = find(name, role)
+        if node is None:
+            return None
+        action = node.queryAction()
+        index = next(i for i in range(action.nActions)
+                     if action.getName(i).lower() in ('press', 'click', 'activate'))
+        return action, index
+    action, index = until(ready_action)
     assert action.doAction(index), name
     actions.append(name)
 def hypr(query):

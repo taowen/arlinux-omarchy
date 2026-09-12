@@ -106,7 +106,10 @@ normalizes its Android permission message so Glycin recognizes the unavailable
 sandbox. Image decoder processes remain within this APK's Android sandbox.
 
 The desktop uses XTerm because foot's controlling-terminal setup is rejected
-by Android. The full collection of upstream preinstalled applications is not
+by Android. Xwayland's default visual is 32-bit; XTerm's core X11 background
+erases leave the high byte zero. An XTerm/UXTerm-only `force_rgbx` window rule
+ignores that byte so Backspace, clearing and Neovim do not expose wallpaper.
+Omarchy's normal whole-window opacity still applies. The full collection of upstream preinstalled applications is not
 bundled; install ARM-compatible applications through pacman.
 
 Only `hyprctl` is extracted from the signed Arch Hyprland package. The Linux
@@ -131,6 +134,7 @@ commands during startup. Other clone modes and profiles retain their defaults.
 ```sh
 python3 tests/test-repositories.py
 python3 tests/test-accessibility-patch.py
+ARLINUX_DIR=third_party/arlinux tests/test-terminal-render-device.py --serial DEVICE
 ARLINUX_DIR=third_party/arlinux tests/test-accessibility-device.py --serial DEVICE
 ARLINUX_DIR=third_party/arlinux tests/test-desktop-device.py --serial DEVICE
 ARLINUX_DIR=third_party/arlinux tests/test-pacman-device.py --serial DEVICE

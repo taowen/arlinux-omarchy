@@ -19,14 +19,15 @@ handle or desktop IME toggle. Physical key events and pointer input remain.
 | Workspace 2 → 1 | Pass | Pass |
 | AT-SPI tree, named actions, selected tabs, editable search and app launch | Pass | Pass |
 | Thunar, WebView Example Domain, XTerm | Pass | Pass |
+| XTerm typing → Backspace and Ctrl+L background pixel comparison | 0 changed pixels | 0 changed pixels |
 | Catppuccin → Tokyo Night | Pass | Pass |
 | Hardware renderer | Zink / Turnip, GL 4.6 | Zink / libhybris, GL 2.1 |
 | Unreaped compositor application children | 0 | 0 |
 | UID, sanitized exec, mprotect and PATH tests | Pass | Pass |
 | Fork/exec isolation and pidfd regression | Skipped: Linux 4.19 lacks pidfd | Pass |
 
-The installed APK is 667293240 bytes, SHA-256
-`c79f12fe993260aba8b850b46a3b90d88842b6a0f2daaf1a9dd14a854c1f75ca`.
+The installed APK is 667293580 bytes, SHA-256
+`b01e1f703e78a58d45b5764053afb7b3d210a040834e5dceb571e7a06e2bb82a`.
 The distribution/runtime checks above were verified for the preceding desktop
 build. This accessibility build adds a Quickshell-only Qt initialization hook;
 its desktop and AT-SPI checks use the final installed APK.
@@ -44,6 +45,7 @@ ARLINUX_DIR=third_party/arlinux tests/test-desktop-device.py --serial DEVICE
 third_party/arlinux/tests/test-product-device.py --product . --serial DEVICE
 python3 tests/test-repositories.py
 python3 tests/test-accessibility-patch.py
+ARLINUX_DIR=third_party/arlinux tests/test-terminal-render-device.py --serial DEVICE
 ARLINUX_DIR=third_party/arlinux tests/test-accessibility-device.py --serial DEVICE
 ```
 
@@ -77,6 +79,24 @@ Coverage is the panel, workspaces and application menu; other upstream plugins
 and Android TalkBack navigation are not certified. Android browser/application
 accessibility remains a separate bridge. Arlinux Arch retains its independent
 plain xterm entry and has no changes from this fix.
+
+## Terminal background regression
+
+`tests/test-terminal-render-device.py` opens its own XTerm on an unused
+workspace, injects `a`, Backspace and Ctrl+L, and compares the prompt/background
+pixels with the initial frame. It hides the terminal cursor, checks that typing
+actually changes the image, then closes its terminal and restores the workspace.
+Pillow is required on the host. Keep the pointer outside the first two lines.
+The `--negative-control` option disables `force_rgbx` on that test window and
+is expected to fail: the Redmi reproduction changed 51,456 pixels after
+Backspace. Both corrected devices report zero changed pixels after Backspace
+and Ctrl+L. Neovim's welcome screen was also visually checked on both devices; see the
+[corrected terminal and Neovim](docs/screenshots/redmi-terminal-neovim.png).
+
+The cause is the port's 32-bit default X visual: XTerm's RGB erases have a zero
+high byte that is otherwise interpreted as alpha. The product applies
+`force_rgbx` only to XTerm/UXTerm; the existing theme opacity is preserved.
+Other applications retain their per-pixel alpha behavior.
 
 ## Platform boundaries
 
