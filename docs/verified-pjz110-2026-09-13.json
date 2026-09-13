@@ -1,0 +1,851 @@
+{
+  "apk": {
+    "sha256": "5212ef367573bca4b273f972b8e1c5a0569e7b5aa23fb199fcbe9e73680c1de2",
+    "bytes": 676671282
+  },
+  "devices": {
+    "redmi": {
+      "serial": "29854870",
+      "model": "M2012K11AC",
+      "fingerprint": "Redmi/alioth/alioth:13/TKQ1.221114.001/V816.0.10.0.TKHCNXM:user/release-keys",
+      "apk_sha256": "5212ef367573bca4b273f972b8e1c5a0569e7b5aa23fb199fcbe9e73680c1de2",
+      "gpu_profile": "qualcomm",
+      "overlay_id": "7dabd8a2e7178aa85b415a8d4e231eb848da5da06394931d49c23495b201b4b6",
+      "gpu_library": "mesa/libvulkan_freedreno.so",
+      "gpu_library_sha256": "767dec1f74c77dfd540fc727a66f81126909bc6c123268ed8704859f6e51207c",
+      "desktop": {
+        "monitors": [
+          {
+            "id": 0,
+            "name": "ANDROID-1",
+            "description": "Android Embedded display",
+            "make": "Android",
+            "model": "Embedded display",
+            "serial": "",
+            "width": 2320,
+            "height": 1080,
+            "physicalWidth": 0,
+            "physicalHeight": 0,
+            "refreshRate": 60.0,
+            "x": 0,
+            "y": 0,
+            "activeWorkspace": {
+              "id": 1,
+              "address": "1",
+              "type": "numbered",
+              "name": "1"
+            },
+            "specialWorkspace": {
+              "id": 0,
+              "address": "",
+              "type": "",
+              "name": ""
+            },
+            "reserved": [
+              0,
+              26,
+              0,
+              0
+            ],
+            "scale": 1.6,
+            "transform": 0,
+            "focused": true,
+            "dpmsStatus": true,
+            "vrr": false,
+            "solitary": "0",
+            "solitaryBlockedBy": [
+              "NOTIFICATION",
+              "WINDOWED",
+              "CANDIDATE"
+            ],
+            "activelyTearing": false,
+            "tearingBlockedBy": [
+              "NOT_TORN",
+              "USER",
+              "SUPPORT",
+              "CANDIDATE"
+            ],
+            "directScanoutTo": "0",
+            "directScanoutBlockedBy": [
+              "USER",
+              "SW",
+              "CANDIDATE"
+            ],
+            "disabled": false,
+            "currentFormat": "XBGR8888",
+            "mirrorOf": "none",
+            "availableModes": [
+              "2320x1080@60.00Hz"
+            ],
+            "colorManagementPreset": "srgb",
+            "sdrBrightness": 1,
+            "sdrSaturation": 1,
+            "sdrMinLuminance": 0.2,
+            "sdrMaxLuminance": 80,
+            "hardwareCursorsInUse": true,
+            "hardwareDetails": {
+              "backend": "?",
+              "hdr": false,
+              "chroma": false,
+              "bt2020": false,
+              "vrrCapable": false
+            }
+          }
+        ],
+        "startupClients": [],
+        "font": "omarchy",
+        "clock": "2026-09-13 23:02 CST",
+        "renderer": " DEBUG qt.rhi.general: OpenGL VENDOR: Mesa RENDERER: zink Vulkan 1.3(Turnip Adreno (TM) 650 (MESA_TURNIP)) VERSION: 4.6 (Compatibility Profile) Mesa 26.3.0-devel",
+        "workspaceSwitch": [
+          2,
+          1
+        ],
+        "files": [
+          {
+            "address": "0x7ac9514000",
+            "mapped": true,
+            "hidden": false,
+            "visible": true,
+            "acceptsInput": true,
+            "at": [
+              12,
+              38
+            ],
+            "size": [
+              1426,
+              625
+            ],
+            "workspace": {
+              "id": 1,
+              "address": "1",
+              "type": "numbered",
+              "name": "1"
+            },
+            "floating": false,
+            "monitor": 0,
+            "class": "thunar",
+            "title": "home - Thunar",
+            "initialClass": "thunar",
+            "initialTitle": "home - Thunar",
+            "pid": 25979,
+            "xwayland": false,
+            "pinned": false,
+            "pinFullscreened": false,
+            "fullscreen": 0,
+            "fullscreenClient": 0,
+            "fullscreenHandler": "default",
+            "allowedOverFullscreen": true,
+            "grouped": [],
+            "tags": [
+              "default-opacity*"
+            ],
+            "swallowing": "0x0",
+            "focusHistoryID": 0,
+            "inhibitingIdle": false,
+            "xdgTag": "",
+            "xdgDescription": "",
+            "contentType": "none",
+            "tearingHint": false,
+            "stableId": "18000002"
+          }
+        ],
+        "browser": [
+          {
+            "address": "0x7ac9514000",
+            "mapped": true,
+            "hidden": false,
+            "visible": true,
+            "acceptsInput": true,
+            "at": [
+              12,
+              38
+            ],
+            "size": [
+              1426,
+              625
+            ],
+            "workspace": {
+              "id": 1,
+              "address": "1",
+              "type": "numbered",
+              "name": "1"
+            },
+            "floating": false,
+            "monitor": 0,
+            "class": "io.taowen.arlinux.browser",
+            "title": "Arlinux Browser",
+            "initialClass": "io.taowen.arlinux.browser",
+            "initialTitle": "Arlinux Browser",
+            "pid": 25340,
+            "xwayland": false,
+            "pinned": false,
+            "pinFullscreened": false,
+            "fullscreen": 0,
+            "fullscreenClient": 0,
+            "fullscreenHandler": "default",
+            "allowedOverFullscreen": true,
+            "grouped": [],
+            "tags": [
+              "default-opacity*"
+            ],
+            "swallowing": "0x0",
+            "focusHistoryID": 0,
+            "inhibitingIdle": false,
+            "xdgTag": "",
+            "xdgDescription": "",
+            "contentType": "none",
+            "tearingHint": false,
+            "stableId": "18000003"
+          }
+        ],
+        "terminal": [
+          {
+            "address": "0x7a4ad73c00",
+            "mapped": true,
+            "hidden": false,
+            "visible": true,
+            "acceptsInput": true,
+            "at": [
+              12,
+              38
+            ],
+            "size": [
+              1426,
+              625
+            ],
+            "workspace": {
+              "id": 1,
+              "address": "1",
+              "type": "numbered",
+              "name": "1"
+            },
+            "floating": false,
+            "monitor": 0,
+            "class": "XTerm",
+            "title": "@localhost:/",
+            "initialClass": "XTerm",
+            "initialTitle": "Arlinux Omarchy",
+            "pid": 26444,
+            "xwayland": true,
+            "pinned": false,
+            "pinFullscreened": false,
+            "fullscreen": 0,
+            "fullscreenClient": 0,
+            "fullscreenHandler": "default",
+            "allowedOverFullscreen": true,
+            "grouped": [],
+            "tags": [
+              "default-opacity*"
+            ],
+            "swallowing": "0x0",
+            "focusHistoryID": 0,
+            "inhibitingIdle": false,
+            "xdgTag": "",
+            "xdgDescription": "",
+            "contentType": "none",
+            "tearingHint": false,
+            "stableId": "18000004"
+          }
+        ],
+        "themeSwitch": [
+          "catppuccin",
+          "tokyo-night"
+        ],
+        "unreapedChildren": []
+      },
+      "terminal": {
+        "backspaceChangedPixels": 0,
+        "clearChangedPixels": 0
+      },
+      "accessibility": {
+        "actions": [
+          "Workspace 2",
+          "Workspace 1",
+          "Omarchy menu",
+          "Close menu",
+          "Omarchy menu",
+          "Apps",
+          "Omarchy Terminal"
+        ],
+        "editableText": "filter, clear, filter",
+        "launchedClass": "XTerm",
+        "remainingClients": []
+      },
+      "runtime": {
+        "normal": "IDENTITY mode=normal uid=10312 gid=10312 clearenv=ok child=0\nIDENTITY mode=normal uid=10312 gid=10312 clearenv=ok child=1\n",
+        "virtual": "IDENTITY mode=virtual uid=0 gid=0 clearenv=ok child=0\nIDENTITY mode=virtual uid=0 gid=0 clearenv=ok child=1\n",
+        "mprotect-permissions": "MPROTECT denied=EACCES mapping=preserved heap=ok\n",
+        "fork-exec": "FORK skipped=kernel-no-pidfd\n",
+        "exec-path-order": "PATH execvp=overlay spawnp=overlay execvpe=overlay\n"
+      }
+    },
+    "x300": {
+      "serial": "192.168.1.60:5555",
+      "model": "V2509A",
+      "fingerprint": "vivo/PD2509/PD2509:16/BP2A.250605.031.A3_V000L1/compiler260510114321:user/release-keys",
+      "apk_sha256": "5212ef367573bca4b273f972b8e1c5a0569e7b5aa23fb199fcbe9e73680c1de2",
+      "gpu_profile": "generic",
+      "overlay_id": "44e5e6bd0e585dcc4366d865424c1e4e9408840b6a537be6847614724ac6c1aa",
+      "gpu_library": "hybris/libhybris/linker/q.so",
+      "gpu_library_sha256": "65e598c47193b236621e7ad1ea12a4f58313d02738a3b613b81cf165503b4428",
+      "desktop": {
+        "monitors": [
+          {
+            "id": 0,
+            "name": "ANDROID-1",
+            "description": "Android Embedded display",
+            "make": "Android",
+            "model": "Embedded display",
+            "serial": "",
+            "width": 2521,
+            "height": 1216,
+            "physicalWidth": 0,
+            "physicalHeight": 0,
+            "refreshRate": 60.0,
+            "x": 0,
+            "y": 0,
+            "activeWorkspace": {
+              "id": 1,
+              "address": "1",
+              "type": "numbered",
+              "name": "1"
+            },
+            "specialWorkspace": {
+              "id": 0,
+              "address": "",
+              "type": "",
+              "name": ""
+            },
+            "reserved": [
+              0,
+              26,
+              0,
+              0
+            ],
+            "scale": 1,
+            "transform": 0,
+            "focused": true,
+            "dpmsStatus": true,
+            "vrr": false,
+            "solitary": "0",
+            "solitaryBlockedBy": [
+              "NOTIFICATION",
+              "WINDOWED",
+              "CANDIDATE"
+            ],
+            "activelyTearing": false,
+            "tearingBlockedBy": [
+              "NOT_TORN",
+              "USER",
+              "SUPPORT",
+              "CANDIDATE"
+            ],
+            "directScanoutTo": "0",
+            "directScanoutBlockedBy": [
+              "USER",
+              "SW",
+              "CANDIDATE"
+            ],
+            "disabled": false,
+            "currentFormat": "XBGR8888",
+            "mirrorOf": "none",
+            "availableModes": [
+              "2521x1216@60.00Hz"
+            ],
+            "colorManagementPreset": "srgb",
+            "sdrBrightness": 1,
+            "sdrSaturation": 1,
+            "sdrMinLuminance": 0.2,
+            "sdrMaxLuminance": 80,
+            "hardwareCursorsInUse": true,
+            "hardwareDetails": {
+              "backend": "?",
+              "hdr": false,
+              "chroma": false,
+              "bt2020": false,
+              "vrrCapable": false
+            }
+          }
+        ],
+        "startupClients": [],
+        "font": "omarchy",
+        "clock": "2026-09-13 23:06 CST",
+        "renderer": " DEBUG qt.rhi.general: OpenGL VENDOR: Mesa RENDERER: zink Vulkan 1.3(Mali-G1-Ultra MC12 (ARM_PROPRIETARY)) VERSION: 2.1 Mesa 26.3.0-devel",
+        "workspaceSwitch": [
+          2,
+          1
+        ],
+        "files": [
+          {
+            "address": "0x701935dc50",
+            "mapped": true,
+            "hidden": false,
+            "visible": true,
+            "acceptsInput": true,
+            "at": [
+              12,
+              38
+            ],
+            "size": [
+              2497,
+              1166
+            ],
+            "workspace": {
+              "id": 1,
+              "address": "1",
+              "type": "numbered",
+              "name": "1"
+            },
+            "floating": false,
+            "monitor": 0,
+            "class": "thunar",
+            "title": "home - Thunar",
+            "initialClass": "thunar",
+            "initialTitle": "home - Thunar",
+            "pid": 6991,
+            "xwayland": false,
+            "pinned": false,
+            "pinFullscreened": false,
+            "fullscreen": 0,
+            "fullscreenClient": 0,
+            "fullscreenHandler": "default",
+            "allowedOverFullscreen": true,
+            "grouped": [],
+            "tags": [
+              "default-opacity*"
+            ],
+            "swallowing": "0x0",
+            "focusHistoryID": 0,
+            "inhibitingIdle": false,
+            "xdgTag": "",
+            "xdgDescription": "",
+            "contentType": "none",
+            "tearingHint": false,
+            "stableId": "18000002"
+          }
+        ],
+        "browser": [
+          {
+            "address": "0x7019357920",
+            "mapped": true,
+            "hidden": false,
+            "visible": true,
+            "acceptsInput": true,
+            "at": [
+              12,
+              38
+            ],
+            "size": [
+              2497,
+              1166
+            ],
+            "workspace": {
+              "id": 1,
+              "address": "1",
+              "type": "numbered",
+              "name": "1"
+            },
+            "floating": false,
+            "monitor": 0,
+            "class": "io.taowen.arlinux.browser",
+            "title": "Arlinux Browser",
+            "initialClass": "io.taowen.arlinux.browser",
+            "initialTitle": "Arlinux Browser",
+            "pid": 6142,
+            "xwayland": false,
+            "pinned": false,
+            "pinFullscreened": false,
+            "fullscreen": 0,
+            "fullscreenClient": 0,
+            "fullscreenHandler": "default",
+            "allowedOverFullscreen": true,
+            "grouped": [],
+            "tags": [
+              "default-opacity*"
+            ],
+            "swallowing": "0x0",
+            "focusHistoryID": 0,
+            "inhibitingIdle": false,
+            "xdgTag": "",
+            "xdgDescription": "",
+            "contentType": "none",
+            "tearingHint": false,
+            "stableId": "18000003"
+          }
+        ],
+        "terminal": [
+          {
+            "address": "0x7019331d60",
+            "mapped": true,
+            "hidden": false,
+            "visible": true,
+            "acceptsInput": true,
+            "at": [
+              12,
+              38
+            ],
+            "size": [
+              2497,
+              1166
+            ],
+            "workspace": {
+              "id": 1,
+              "address": "1",
+              "type": "numbered",
+              "name": "1"
+            },
+            "floating": false,
+            "monitor": 0,
+            "class": "XTerm",
+            "title": "@localhost:/",
+            "initialClass": "XTerm",
+            "initialTitle": "Arlinux Omarchy",
+            "pid": 7823,
+            "xwayland": true,
+            "pinned": false,
+            "pinFullscreened": false,
+            "fullscreen": 0,
+            "fullscreenClient": 0,
+            "fullscreenHandler": "default",
+            "allowedOverFullscreen": true,
+            "grouped": [],
+            "tags": [
+              "default-opacity*"
+            ],
+            "swallowing": "0x0",
+            "focusHistoryID": 0,
+            "inhibitingIdle": false,
+            "xdgTag": "",
+            "xdgDescription": "",
+            "contentType": "none",
+            "tearingHint": false,
+            "stableId": "18000004"
+          }
+        ],
+        "themeSwitch": [
+          "catppuccin",
+          "tokyo-night"
+        ],
+        "unreapedChildren": []
+      },
+      "terminal": {
+        "backspaceChangedPixels": 0,
+        "clearChangedPixels": 0
+      },
+      "accessibility": {
+        "actions": [
+          "Workspace 2",
+          "Workspace 1",
+          "Omarchy menu",
+          "Close menu",
+          "Omarchy menu",
+          "Apps",
+          "Omarchy Terminal"
+        ],
+        "editableText": "filter, clear, filter",
+        "launchedClass": "XTerm",
+        "remainingClients": []
+      },
+      "runtime": {
+        "normal": "IDENTITY mode=normal uid=10493 gid=10493 clearenv=ok child=0\nIDENTITY mode=normal uid=10493 gid=10493 clearenv=ok child=1\n",
+        "virtual": "IDENTITY mode=virtual uid=0 gid=0 clearenv=ok child=0\nIDENTITY mode=virtual uid=0 gid=0 clearenv=ok child=1\n",
+        "mprotect-permissions": "MPROTECT denied=EACCES mapping=preserved heap=ok\n",
+        "fork-exec": "FORK default=shared optin=isolated pidfd=ok nested-exec=ok parent=preserved\n",
+        "exec-path-order": "PATH execvp=overlay spawnp=overlay execvpe=overlay\n"
+      }
+    },
+    "pjz110": {
+      "serial": "192.168.1.57:5555",
+      "model": "PJZ110",
+      "fingerprint": "OnePlus/PJZ110/OP5D0DL1:16/BP2A.250605.015/V.3890a4c-14ef1e9-14f2de5:user/release-keys",
+      "apk_sha256": "5212ef367573bca4b273f972b8e1c5a0569e7b5aa23fb199fcbe9e73680c1de2",
+      "gpu_profile": "qualcomm",
+      "overlay_id": "7dabd8a2e7178aa85b415a8d4e231eb848da5da06394931d49c23495b201b4b6",
+      "gpu_library": "mesa/libvulkan_freedreno.so",
+      "gpu_library_sha256": "767dec1f74c77dfd540fc727a66f81126909bc6c123268ed8704859f6e51207c",
+      "desktop": {
+        "monitors": [
+          {
+            "id": 0,
+            "name": "ANDROID-1",
+            "description": "Android Embedded display",
+            "make": "Android",
+            "model": "Embedded display",
+            "serial": "",
+            "width": 2256,
+            "height": 1080,
+            "physicalWidth": 0,
+            "physicalHeight": 0,
+            "refreshRate": 60.0,
+            "x": 0,
+            "y": 0,
+            "activeWorkspace": {
+              "id": 1,
+              "address": "1",
+              "type": "numbered",
+              "name": "1"
+            },
+            "specialWorkspace": {
+              "id": 0,
+              "address": "",
+              "type": "",
+              "name": ""
+            },
+            "reserved": [
+              0,
+              26,
+              0,
+              0
+            ],
+            "scale": 1.5,
+            "transform": 0,
+            "focused": true,
+            "dpmsStatus": true,
+            "vrr": false,
+            "solitary": "0",
+            "solitaryBlockedBy": [
+              "NOTIFICATION",
+              "WINDOWED",
+              "CANDIDATE"
+            ],
+            "activelyTearing": false,
+            "tearingBlockedBy": [
+              "NOT_TORN",
+              "USER",
+              "SUPPORT",
+              "CANDIDATE"
+            ],
+            "directScanoutTo": "0",
+            "directScanoutBlockedBy": [
+              "USER",
+              "SW",
+              "CANDIDATE"
+            ],
+            "disabled": false,
+            "currentFormat": "XBGR8888",
+            "mirrorOf": "none",
+            "availableModes": [
+              "2256x1080@60.00Hz"
+            ],
+            "colorManagementPreset": "srgb",
+            "sdrBrightness": 1,
+            "sdrSaturation": 1,
+            "sdrMinLuminance": 0.2,
+            "sdrMaxLuminance": 80,
+            "hardwareCursorsInUse": true,
+            "hardwareDetails": {
+              "backend": "?",
+              "hdr": false,
+              "chroma": false,
+              "bt2020": false,
+              "vrrCapable": false
+            }
+          }
+        ],
+        "startupClients": [],
+        "font": "omarchy",
+        "clock": "2026-09-13 23:00 CST",
+        "renderer": " DEBUG qt.rhi.general: OpenGL VENDOR: Mesa RENDERER: zink Vulkan 1.4(Adreno (TM) 830v1 (MESA_TURNIP)) VERSION: 4.6 (Compatibility Profile) Mesa 26.3.0-devel",
+        "workspaceSwitch": [
+          2,
+          1
+        ],
+        "files": [
+          {
+            "address": "0x7a40195c00",
+            "mapped": true,
+            "hidden": false,
+            "visible": true,
+            "acceptsInput": true,
+            "at": [
+              12,
+              38
+            ],
+            "size": [
+              1480,
+              670
+            ],
+            "workspace": {
+              "id": 1,
+              "address": "1",
+              "type": "numbered",
+              "name": "1"
+            },
+            "floating": false,
+            "monitor": 0,
+            "class": "thunar",
+            "title": "home - Thunar",
+            "initialClass": "thunar",
+            "initialTitle": "home - Thunar",
+            "pid": 20721,
+            "xwayland": false,
+            "pinned": false,
+            "pinFullscreened": false,
+            "fullscreen": 0,
+            "fullscreenClient": 0,
+            "fullscreenHandler": "default",
+            "allowedOverFullscreen": true,
+            "grouped": [],
+            "tags": [
+              "default-opacity*"
+            ],
+            "swallowing": "0x0",
+            "focusHistoryID": 0,
+            "inhibitingIdle": false,
+            "xdgTag": "",
+            "xdgDescription": "",
+            "contentType": "none",
+            "tearingHint": false,
+            "stableId": "18000002"
+          }
+        ],
+        "browser": [
+          {
+            "address": "0x7a40195c00",
+            "mapped": true,
+            "hidden": false,
+            "visible": true,
+            "acceptsInput": true,
+            "at": [
+              12,
+              38
+            ],
+            "size": [
+              1480,
+              670
+            ],
+            "workspace": {
+              "id": 1,
+              "address": "1",
+              "type": "numbered",
+              "name": "1"
+            },
+            "floating": false,
+            "monitor": 0,
+            "class": "io.taowen.arlinux.browser",
+            "title": "Arlinux Browser",
+            "initialClass": "io.taowen.arlinux.browser",
+            "initialTitle": "Arlinux Browser",
+            "pid": 5786,
+            "xwayland": false,
+            "pinned": false,
+            "pinFullscreened": false,
+            "fullscreen": 0,
+            "fullscreenClient": 0,
+            "fullscreenHandler": "default",
+            "allowedOverFullscreen": true,
+            "grouped": [],
+            "tags": [
+              "default-opacity*"
+            ],
+            "swallowing": "0x0",
+            "focusHistoryID": 0,
+            "inhibitingIdle": false,
+            "xdgTag": "",
+            "xdgDescription": "",
+            "contentType": "none",
+            "tearingHint": false,
+            "stableId": "18000003"
+          }
+        ],
+        "terminal": [
+          {
+            "address": "0x7a6322b000",
+            "mapped": true,
+            "hidden": false,
+            "visible": true,
+            "acceptsInput": true,
+            "at": [
+              12,
+              38
+            ],
+            "size": [
+              1480,
+              670
+            ],
+            "workspace": {
+              "id": 1,
+              "address": "1",
+              "type": "numbered",
+              "name": "1"
+            },
+            "floating": false,
+            "monitor": 0,
+            "class": "XTerm",
+            "title": "Arlinux Omarchy",
+            "initialClass": "XTerm",
+            "initialTitle": "Arlinux Omarchy",
+            "pid": 21844,
+            "xwayland": true,
+            "pinned": false,
+            "pinFullscreened": false,
+            "fullscreen": 0,
+            "fullscreenClient": 0,
+            "fullscreenHandler": "default",
+            "allowedOverFullscreen": true,
+            "grouped": [],
+            "tags": [
+              "default-opacity*"
+            ],
+            "swallowing": "0x0",
+            "focusHistoryID": 0,
+            "inhibitingIdle": false,
+            "xdgTag": "",
+            "xdgDescription": "",
+            "contentType": "none",
+            "tearingHint": false,
+            "stableId": "18000004"
+          }
+        ],
+        "themeSwitch": [
+          "catppuccin",
+          "tokyo-night"
+        ],
+        "unreapedChildren": []
+      },
+      "terminal": {
+        "backspaceChangedPixels": 0,
+        "clearChangedPixels": 0
+      },
+      "accessibility": {
+        "actions": [
+          "Workspace 2",
+          "Workspace 1",
+          "Omarchy menu",
+          "Close menu",
+          "Omarchy menu",
+          "Apps",
+          "Omarchy Terminal"
+        ],
+        "editableText": "filter, clear, filter",
+        "launchedClass": "XTerm",
+        "remainingClients": []
+      },
+      "runtime": {
+        "normal": "IDENTITY mode=normal uid=10523 gid=10523 clearenv=ok child=0\nIDENTITY mode=normal uid=10523 gid=10523 clearenv=ok child=1\n",
+        "virtual": "IDENTITY mode=virtual uid=0 gid=0 clearenv=ok child=0\nIDENTITY mode=virtual uid=0 gid=0 clearenv=ok child=1\n",
+        "mprotect-permissions": "MPROTECT denied=EACCES mapping=preserved heap=ok\n",
+        "fork-exec": "FORK default=shared optin=isolated pidfd=ok nested-exec=ok parent=preserved\n",
+        "exec-path-order": "PATH execvp=overlay spawnp=overlay execvpe=overlay\n"
+      }
+    }
+  },
+  "date": "2026-09-13",
+  "package": "io.taowen.arlinux.omarchy",
+  "components": {
+    "arlinux": "7d30871979f2ec0cd36dfc96b9009459e727e3f2",
+    "libhybris": "fb150ae2e1e15e9cc7059beac3fa987f9c4687a5",
+    "mesa": "f5ebba832e830e56cd37d608e260500047abc1e7",
+    "anhyprland": "0f16979107d26825cd02cb6c2e3a6c6e9d15d61c"
+  },
+  "headless_evidence": "https://github.com/taowen/libhybris/blob/fb150ae2e1e15e9cc7059beac3fa987f9c4687a5/tests/baseline/namespace-verified-2026-09-13.json",
+  "x300_packaged_crypto": [
+    "HYBRIS: verified original module and relocated integrity hash for /system/lib64/libcrypto.so",
+    "PASS system crypto: integrity=1 self_test=1 SHA256/RAND 9 threads, SSL_CTX"
+  ],
+  "linker_provenance": {
+    "standalone_q_sha256": "28777c3b2f3a7e552caf98f8c117e5fc0d872e5d84ca5eb975d0533bc1a18474",
+    "packaged_q_sha256": "65e598c47193b236621e7ad1ea12a4f58313d02738a3b613b81cf165503b4428",
+    "only_change": "normal product RUNPATH; reconstructed file compared byte-for-byte"
+  }
+}
