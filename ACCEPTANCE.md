@@ -26,7 +26,7 @@ handle or desktop IME toggle. Physical key events and pointer input remain.
 | UID, sanitized exec, mprotect and PATH tests | Pass | Pass | Pass |
 | Fork/exec isolation and pidfd regression | Skipped: Linux 4.19 lacks pidfd | Pass | Pass |
 
-The installed APK is 676671282 bytes, SHA-256
+The APK used for the table above is 676671282 bytes, SHA-256
 `5212ef367573bca4b273f972b8e1c5a0569e7b5aa23fb199fcbe9e73680c1de2`.
 The checks in this table were run against this installed APK on all three
 devices. [Saved results and installed-file hashes](docs/verified-pjz110-2026-09-13.json)
@@ -39,6 +39,42 @@ Original screenshots: [Redmi desktop](docs/screenshots/redmi-desktop.png),
 [X300 files](docs/screenshots/x300-files.png),
 [PJZ110 desktop](docs/screenshots/pjz110-desktop.png),
 [PJZ110 browser](docs/screenshots/pjz110-browser.png).
+
+## Blender on OnePlus 13, 2026-09-13 — FAIL
+
+A later APK was built from product `ac79784` and core `8a0868c`, with Mesa
+`89060684726` on `arlinux-official-base`, and installed on PJZ110 only.
+Its SHA-256 is `0fa39f4b2eb285af1aa72cbbd6d017bea6a4cd3eb0b09f99dc682edac06d0e99`.
+The earlier three-device desktop matrix above retains its original APK identity;
+it is not a Blender acceptance result for this later build.
+
+The unmodified distribution Blender `17:5.2.1-1` executable was tested with
+matching signed USD `26.05-4` and `python-cattrs` packages. Runs started inside
+Omarchy Terminal after sourcing the desktop session environment, using the
+existing Arlinux Blender workflow script. The installed driver hash matches
+the new APK, and the Vulkan process mappings confirm that driver was loaded.
+
+| Path | Result |
+| --- | --- |
+| Default OpenGL / Zink / Wayland | FAIL: unsupported 10-bit surface format 58, followed by a segmentation fault (exit 139). |
+| Explicit Vulkan / Wayland | FAIL: repeated `VK_ERROR_FORMAT_NOT_SUPPORTED` during swapchain creation; no Blender window maps. All five CPU modeling/save/reopen events run, but this is not visible application success. The test process was stopped after collection. |
+| Diagnostic X11 fallback | FAIL: drawable creation fails, no Blender window; later exit 137. The termination cause is not established. No permanent backend override was installed. |
+| Old Turnip ICD control (`f5ebba832e8`) | Same default OpenGL surface-format error. The old ICD initializer path is verified; this control kept current EGL/Gallium, so it is not an old-APK rollback. |
+
+These observations do not establish a regression from the branch reconstruction:
+the old and new Mesa source trees are identical, and replacing only Turnip with
+the previous ICD does not remove the default failure. Window-format negotiation
+needs further investigation. Visible editing, successful resizing, a fresh
+visible reopen and Workbench/Eevee rendering were not accepted. No application,
+Mesa or compositor fix was made in this test pass.
+
+[Exact versions, commands, hashes and results](docs/verified-blender-pjz110-2026-09-13.json)
+include the package-dependency setup and the limitations of the controls.
+Original failure screenshots: [OpenGL](docs/screenshots/pjz110-blender-opengl-failure.png),
+[Vulkan](docs/screenshots/pjz110-blender-vulkan-failure.png).
+Test processes and terminals were closed; the new APK and installed packages
+remain on PJZ110. Local logs, process maps and diagnostic model files are under
+Arlinux `build/blender-pjz110-official-base/`.
 
 ## Reproduce
 
