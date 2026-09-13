@@ -10,7 +10,7 @@ The default desktop starts with the Tokyo Night landscape wallpaper and panel.
 There is no automatically opened terminal, Android extra-key bar, keyboard
 handle or desktop IME toggle. Physical key events and pointer input remain.
 
-## Verified 2026-09-12
+## Verified 2026-09-13
 
 | Check | Redmi / Adreno 650 | vivo X300 / Mali-G1-Ultra MC12 |
 | --- | --- | --- |
@@ -26,11 +26,11 @@ handle or desktop IME toggle. Physical key events and pointer input remain.
 | UID, sanitized exec, mprotect and PATH tests | Pass | Pass |
 | Fork/exec isolation and pidfd regression | Skipped: Linux 4.19 lacks pidfd | Pass |
 
-The installed APK is 667293580 bytes, SHA-256
-`b01e1f703e78a58d45b5764053afb7b3d210a040834e5dceb571e7a06e2bb82a`.
+The installed APK is 676453078 bytes, SHA-256
+`30dcd6c0d1ab67fa11251bc97e7a32d87539e7696ccbfc849b9cf5ec1e2ac6d7`.
 The distribution/runtime checks above were verified for the preceding desktop
-build. This accessibility build adds a Quickshell-only Qt initialization hook;
-its desktop and AT-SPI checks use the final installed APK.
+build. Desktop, AT-SPI and terminal background checks were rerun on both devices
+with this installed APK, including the libhybris integrity update below.
 No diagnostic preload or manual guest session is used for desktop acceptance.
 Repository bootstrap policy tests also pass.
 
@@ -97,6 +97,34 @@ The cause is the port's 32-bit default X visual: XTerm's RGB erases have a zero
 high byte that is otherwise interpreted as alpha. The product applies
 `force_rgbx` only to XTerm/UXTerm; the existing theme opacity is preserved.
 Other applications retain their per-pixel alpha behavior.
+
+## Libhybris integrity regression, 2026-09-13
+
+Arlinux `2628032` pins libhybris `62a9a8f`, including the loader fix introduced
+in `0106f4f` and its constructor regression fixtures. The Android loader verifies the
+original BoringSSL HMAC before relocating its private expected digest for TLS
+instruction changes. Native integrity checks, algorithm self-tests and both
+crypto/SSL constructors remain active. Unsupported or damaged inputs fail
+instead of disabling those checks. This does not claim FIPS certification.
+
+The [four-device evidence](https://github.com/taowen/libhybris/blob/62a9a8f61f4c00d8c43309bd41177e292b201aa8/tests/integrity/verified-2026-09-13.json)
+records 72 passing integrity cases across Redmi M2012K11AC, vivo X300,
+OnePlus 8T and OnePlus PJZ110. Redmi, X300 and OnePlus 8T also each pass all
+seven native/hybris Vulkan, GLES 2/3 and TLS regression cases. PJZ110's vendor
+mapping permission failures reproduce with the independently built previous
+libhybris version and are recorded separately, not counted as passes.
+
+The generic GPU archive contains `q.so` with SHA-256
+`0899cb85fba9fa326c7a467a4499455430d184ec6a98d6bc1b3d7eab7335dfa1`.
+It is byte-identical to the tested library after applying the product's normal
+RUNPATH. Product cache inputs now include nested linker libraries so a `q.so`
+update invalidates prepared assets.
+
+On X300, the installed file has that same hash. A probe executed inside this
+APK loaded system crypto/SSL through the packaged linker: original HMAC
+verification, native integrity and algorithm self-tests, nine-thread SHA-256
+and random generation, and SSL context creation all passed. Redmi uses the
+Turnip overlay for its desktop; its libhybris coverage is the standalone suite.
 
 ## Platform boundaries
 
