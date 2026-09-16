@@ -23,29 +23,12 @@ systemd installation scripts.
 
 Device results and limitations are recorded in [ACCEPTANCE.md](ACCEPTANCE.md).
 
-## Build
+## Development
 
-Requirements are JDK 21+, Android SDK/NDK 29, rootless Podman, Python 3.11+,
-CMake, Ninja, Meson, pkg-config, Autoconf/Automake/Libtool, a host C++23 compiler,
-curl, tar, zstd and patchelf. See the pinned Arlinux and anhyprland build guides
-for native toolchain details.
-
-```sh
-git -C /path/to/arlinux submodule update --init --recursive
-cd /path/to/arlinux
-export JAVA_HOME=/path/to/jdk
-export ANDROID_HOME=/path/to/android-sdk
-# Build the shared native dependencies and Android compositor:
-distributions/omarchy/tools/build-host.sh
-# Prepare the userspace and assemble the APK:
-distributions/omarchy/build.sh
-```
-
-Output: `distributions/omarchy/build/arlinux-omarchy-debug.apk`. `--prepare-only` prepares guest
-assets; `--apk-only` packages existing assets. Separate development checkouts
-can be selected with `ARLINUX_DIR` and `ANHYPRLAND_DIR`. The libhybris resolver
-uses the install produced by `build-host.sh`; `HYBRIS_LIB_DIR` can select a
-separate current build.
+This repository is consumed from `arlinux/distributions/omarchy`. The former
+Podman product and host build entrypoints have been removed; development now
+uses the parent checkout inside WSL 2. Omarchy's upstream source remains pinned
+at `third_party/omarchy`, while Arlinux pins anhyprland centrally.
 
 Install the APK and press Start. First boot needs network access to initialize
 signed Arch ARM / Arch Linux CN repositories and install desktop packages.
