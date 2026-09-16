@@ -12,7 +12,7 @@ import subprocess
 import shlex
 
 product = Path(__file__).resolve().parents[1]
-core = Path(os.environ.get('ARLINUX_DIR', product / 'third_party/arlinux')).resolve()
+core = Path(os.environ.get('ARLINUX_DIR', product / '../..')).resolve()
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--serial', required=True)
 a = p.parse_args()

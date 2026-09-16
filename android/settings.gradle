@@ -13,7 +13,7 @@ dependencyResolutionManagement {
         maven { url 'https://www.jitpack.io' }
     }
 }
-def core = new File(System.getenv('ARLINUX_DIR') ?: "$settingsDir/../third_party/arlinux").canonicalFile
+def core = new File(System.getenv('ARLINUX_DIR') ?: "$settingsDir/../../..").canonicalFile
 gradle.ext.arlinuxDir = core
 rootProject.name = 'arlinux-omarchy'
 include ':app', ':desktop'

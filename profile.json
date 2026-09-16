@@ -1,5 +1,5 @@
 {
-  "$schema": "third_party/arlinux/schemas/profile.schema.json",
+  "$schema": "../../schemas/profile.schema.json",
   "schemaVersion": 3,
   "id": "omarchy",
   "name": "Omarchy",

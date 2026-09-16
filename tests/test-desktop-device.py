@@ -10,7 +10,7 @@ import subprocess
 import time
 
 product = Path(__file__).resolve().parents[1]
-core = Path(os.environ.get('ARLINUX_DIR', product / 'third_party/arlinux')).resolve()
+core = Path(os.environ.get('ARLINUX_DIR', product / '../..')).resolve()
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--serial', required=True)
 p.add_argument('--reuse-session', action='store_true', help='Use an already empty running desktop')

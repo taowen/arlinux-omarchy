@@ -31,16 +31,17 @@ curl, tar, zstd and patchelf. See the pinned Arlinux and anhyprland build guides
 for native toolchain details.
 
 ```sh
-git submodule update --init --recursive
+git -C /path/to/arlinux submodule update --init --recursive
+cd /path/to/arlinux
 export JAVA_HOME=/path/to/jdk
 export ANDROID_HOME=/path/to/android-sdk
 # Build the shared native dependencies and Android compositor:
-./tools/build-host.sh
+distributions/omarchy/tools/build-host.sh
 # Prepare the userspace and assemble the APK:
-./build.sh
+distributions/omarchy/build.sh
 ```
 
-Output: `build/arlinux-omarchy-debug.apk`. `--prepare-only` prepares guest
+Output: `distributions/omarchy/build/arlinux-omarchy-debug.apk`. `--prepare-only` prepares guest
 assets; `--apk-only` packages existing assets. Separate development checkouts
 can be selected with `ARLINUX_DIR` and `ANHYPRLAND_DIR`. The libhybris resolver
 uses the install produced by `build-host.sh`; `HYBRIS_LIB_DIR` can select a
@@ -132,13 +133,13 @@ commands during startup. Other clone modes and profiles retain their defaults.
 ## Checks
 
 ```sh
-python3 tests/test-repositories.py
-python3 tests/test-accessibility-patch.py
-ARLINUX_DIR=third_party/arlinux tests/test-terminal-render-device.py --serial DEVICE
-ARLINUX_DIR=third_party/arlinux tests/test-accessibility-device.py --serial DEVICE
-ARLINUX_DIR=third_party/arlinux tests/test-desktop-device.py --serial DEVICE
-ARLINUX_DIR=third_party/arlinux tests/test-pacman-device.py --serial DEVICE
-third_party/arlinux/tests/test-product-device.py --product . --serial DEVICE
+python3 distributions/omarchy/tests/test-repositories.py
+python3 distributions/omarchy/tests/test-accessibility-patch.py
+distributions/omarchy/tests/test-terminal-render-device.py --serial DEVICE
+distributions/omarchy/tests/test-accessibility-device.py --serial DEVICE
+distributions/omarchy/tests/test-desktop-device.py --serial DEVICE
+distributions/omarchy/tests/test-pacman-device.py --serial DEVICE
+tests/test-product-device.py --product distributions/omarchy --serial DEVICE
 ```
 
 Generated APKs, rootfs archives and dependency caches stay under ignored build

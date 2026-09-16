@@ -1,10 +1,3 @@
-[submodule "third_party/arlinux"]
-	path = third_party/arlinux
-	url = https://github.com/taowen/arlinux.git
 [submodule "third_party/omarchy"]
 	path = third_party/omarchy
 	url = https://github.com/omacom/omarchy.git
-[submodule "third_party/anhyprland"]
-	path = third_party/anhyprland
-	url = https://github.com/taowen/anhyprland.git
-	branch = android

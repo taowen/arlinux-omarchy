@@ -79,12 +79,12 @@ Arlinux `build/blender-pjz110-official-base/`.
 ## Reproduce
 
 ```sh
-ARLINUX_DIR=third_party/arlinux tests/test-desktop-device.py --serial DEVICE
-third_party/arlinux/tests/test-product-device.py --product . --serial DEVICE
-python3 tests/test-repositories.py
-python3 tests/test-accessibility-patch.py
-ARLINUX_DIR=third_party/arlinux tests/test-terminal-render-device.py --serial DEVICE
-ARLINUX_DIR=third_party/arlinux tests/test-accessibility-device.py --serial DEVICE
+distributions/omarchy/tests/test-desktop-device.py --serial DEVICE
+tests/test-product-device.py --product distributions/omarchy --serial DEVICE
+python3 distributions/omarchy/tests/test-repositories.py
+python3 distributions/omarchy/tests/test-accessibility-patch.py
+distributions/omarchy/tests/test-terminal-render-device.py --serial DEVICE
+distributions/omarchy/tests/test-accessibility-device.py --serial DEVICE
 ```
 
 The desktop test restarts this APK and closes its test application windows.
