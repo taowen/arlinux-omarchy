@@ -10,13 +10,14 @@ import os
 from pathlib import Path
 import subprocess
 import shlex
+import sys
 
 product = Path(__file__).resolve().parents[1]
 core = Path(os.environ.get('ARLINUX_DIR', product / '../..')).resolve()
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--serial', required=True)
 a = p.parse_args()
-client = ['python3', str(core / 'tools/product-device.py'), '--serial', a.serial,
+client = [sys.executable, str(core / 'tools/product-device.py'), '--serial', a.serial,
           '--product', str(product)]
 payload = r'''
 import json, subprocess, time

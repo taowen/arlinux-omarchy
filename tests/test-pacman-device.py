@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import shlex
 import subprocess
+import sys
 import tarfile
 
 product = Path(__file__).resolve().parents[1]
@@ -17,7 +18,8 @@ a = p.parse_args()
 package = json.loads((product / 'product.json').read_text())['applicationId']
 build = product / 'build/pacman-test'; build.mkdir(parents=True, exist_ok=True)
 adb = ['adb', '-s', a.serial]
-base = [str(core / 'tools/product-device.py'), '--serial', a.serial, '--product', str(product)]
+base = [sys.executable, str(core / 'tools/product-device.py'),
+        '--serial', a.serial, '--product', str(product)]
 
 def guest(*args, check=True):
     return subprocess.run(base + ['exec', *args], check=check, text=True, capture_output=True)

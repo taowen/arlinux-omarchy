@@ -65,6 +65,7 @@ state.write_text(json.dumps(sorted(installed)))
     assert result.returncode == 17, result.stderr
     assert not any(c[:2] == ['pacman', '-Syyu'] for c in calls)
     assert config.read_text().count('[archlinuxcn]') == 1
+    assert config.read_text().index('[archlinuxcn]') < config.read_text().index('[core]')
     result, calls = run()
     assert result.returncode == 0, result.stderr
     trust = calls.index(['pacman-key', '--populate', 'archlinux'])
@@ -84,10 +85,15 @@ state.write_text(json.dumps(sorted(installed)))
     result, calls = run()
     assert result.returncode == 0, result.stderr
     assert config.read_bytes() == before, 'APK refresh replaced repository settings'
-    assert not any(c[0] == 'pacman-key' or (c[0] == 'pacman' and c[1].startswith('-S')) for c in calls)
+    assert ['pacman-key', '--populate', 'archlinuxarm', 'archlinux', 'archlinuxcn'] in calls
+    assert not any(c[0] == 'pacman' and c[1].startswith('-S') for c in calls)
     # Existing desktops gain the default repository on APK update too.
-    config.write_text(config.read_text().split('\n[archlinuxcn]')[0] + '\n')
+    text = config.read_text()
+    start = text.index('[archlinuxcn]')
+    end = text.index('[core]', start)
+    config.write_text(text[:start] + text[end:])
     result, calls = run()
     assert result.returncode == 0, result.stderr
     assert config.read_text().count('[archlinuxcn]') == 1
+    assert config.read_text().index('[archlinuxcn]') < config.read_text().index('[core]')
 print('PASS: trust order, signature policy, failed install retry, idempotent update and custom mirror preservation')

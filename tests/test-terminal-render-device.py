@@ -12,6 +12,7 @@ import os
 from pathlib import Path
 import shlex
 import subprocess
+import sys
 import time
 from PIL import Image, ImageChops
 
@@ -23,7 +24,7 @@ p.add_argument('--negative-control', action='store_true',
                help='Disable the fix on the test window; this run must fail')
 a = p.parse_args()
 adb = ['adb', '-s', a.serial]
-client = ['python3', str(core / 'tools/product-device.py'), '--serial', a.serial,
+client = [sys.executable, str(core / 'tools/product-device.py'), '--serial', a.serial,
           '--product', str(product)]
 out = product / 'build' / ('terminal-render-' + a.serial + ('-negative' if a.negative_control else ''))
 out.mkdir(parents=True, exist_ok=True)

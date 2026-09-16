@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 import shlex
 import subprocess
+import sys
 import time
 
 product = Path(__file__).resolve().parents[1]
@@ -19,7 +20,8 @@ package = json.loads((product / 'product.json').read_text())['applicationId']
 out = product / 'build' / ('desktop-' + a.serial)
 out.mkdir(parents=True, exist_ok=True)
 adb = ['adb', '-s', a.serial]
-client = ['python3', str(core / 'tools/product-device.py'), '--serial', a.serial, '--product', str(product)]
+client = [sys.executable, str(core / 'tools/product-device.py'),
+          '--serial', a.serial, '--product', str(product)]
 results = {}
 
 

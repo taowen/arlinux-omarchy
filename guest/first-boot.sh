@@ -53,8 +53,17 @@ fi
 # Refresh the product's default repository on APK upgrades too. Preserve a
 # repository already configured by the user, including their chosen mirror.
 if ! grep -q '^\[archlinuxcn\]$' "$root/etc/pacman.conf"; then
-    printf '\n' >> "$root/etc/pacman.conf"
-    cat "$root/usr/lib/arlinux/guest/archlinuxcn.conf" >> "$root/etc/pacman.conf"
+    repo_file="$root/usr/lib/arlinux/guest/archlinuxcn.conf"
+    awk -v repo="$repo_file" '
+        BEGIN {
+            while ((getline line < repo) > 0) block = block line ORS
+            close(repo)
+        }
+        !added && $0 == "[core]" { printf "%s\n", block; added = 1 }
+        { print }
+        END { if (!added) printf "\n%s", block }
+    ' "$root/etc/pacman.conf" > "$root/etc/pacman.conf.new"
+    mv "$root/etc/pacman.conf.new" "$root/etc/pacman.conf"
 fi
 cn_setup=
 if ! pacman -Q archlinuxcn-keyring >/dev/null 2>&1; then
@@ -65,6 +74,11 @@ if ! pacman -Q archlinuxcn-keyring >/dev/null 2>&1; then
     pacman -Sy --needed --noconfirm archlinuxcn-keyring
     cn_setup=1
 fi
+# Installing the keyring package only places its key files on disk. Import
+# and locally sign its current trusted keys before installing CN packages.
+# Repeat this on interrupted first boots so a present package cannot leave an
+# incomplete pacman trust database behind.
+pacman-key --populate archlinuxarm archlinux archlinuxcn
 set -- xterm ttf-dejavu noto-fonts-cjk fontconfig xorg-xrdb dbus \
     at-spi2-core python-dbus python-atspi patch wayland libx11 libxcb libxxf86vm \
     quickshell qt6-declarative qt6-svg qt6-wayland qt6-multimedia qt6-5compat qt6-imageformats \

@@ -1,2 +1,10 @@
 *.sh text eol=lf
 android/gradlew text eol=lf
+guest/bin/* text eol=lf
+guest/*.desktop text eol=lf
+guest/*.json text eol=lf
+guest/*.lua text eol=lf
+guest/*.patch text eol=lf
+guest/*.conf text eol=lf
+guest/mirrorlist text eol=lf
+tests/*.py text eol=lf

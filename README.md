@@ -118,11 +118,11 @@ commands during startup. Other clone modes and profiles retain their defaults.
 ```sh
 python3 distributions/omarchy/tests/test-repositories.py
 python3 distributions/omarchy/tests/test-accessibility-patch.py
-distributions/omarchy/tests/test-terminal-render-device.py --serial DEVICE
-distributions/omarchy/tests/test-accessibility-device.py --serial DEVICE
-distributions/omarchy/tests/test-desktop-device.py --serial DEVICE
-distributions/omarchy/tests/test-pacman-device.py --serial DEVICE
-tests/test-product-device.py --product distributions/omarchy --serial DEVICE
+python3 distributions/omarchy/tests/test-terminal-render-device.py --serial DEVICE
+python3 distributions/omarchy/tests/test-accessibility-device.py --serial DEVICE
+python3 distributions/omarchy/tests/test-desktop-device.py --serial DEVICE
+python3 distributions/omarchy/tests/test-pacman-device.py --serial DEVICE
+python3 tests/test-product-device.py --product distributions/omarchy --serial DEVICE
 ```
 
 Generated APKs, rootfs archives and dependency caches stay under ignored build
