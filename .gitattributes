@@ -1,4 +1,6 @@
 *.sh text eol=lf
+/product.json text eol=lf
+android/*.gradle text eol=lf
 android/gradlew text eol=lf
 guest/bin/* text eol=lf
 guest/*.desktop text eol=lf
