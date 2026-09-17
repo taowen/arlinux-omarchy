@@ -24,3 +24,7 @@ local optional = require('default.hypr.require_optional')
 for _, module in ipairs({ 'input', 'bindings', 'looknfeel', 'autostart' }) do
   optional.module('hypr.' .. module)
 end
+
+-- Android renders the two persistent hand pointers above the compositor.
+-- Keep Hyprland's single-seat cursor hidden so it cannot become a third one.
+hl.config({ cursor = { invisible = true } })
