@@ -8,9 +8,10 @@ Turnip or libhybris.
 
 Application ID: `io.taowen.arlinux.omarchy`. Its rootfs, package database and
 home directory belong to this APK, independently of Arlinux Arch and Debian.
-Arlinux Arch keeps its separate plain xterm startup; this product does not change it.
 Startup shows the Omarchy wallpaper and panel, with no terminal window.
-The application menu includes Thunar, Neovim, an optional themed XTerm and the
+OpenCode Desktop starts as the default AI window without replacing the Omarchy
+shell. It uses Xwayland because OpenCode's native Wayland GPU process does not
+render reliably on the Android compositor. The application menu includes Thunar, Neovim, an optional themed XTerm and the
 shared Android WebView browser. Android applications can be opened with `arlinux-app PACKAGE`.
 
 The bundled Omarchy source is the local 4.0.0 alpha / `quattro` revision
@@ -43,7 +44,8 @@ required at runtime.
   opens the application list. Shortcuts require a physical keyboard.
 - Alt+F4 closes a window. Super+mouse drag moves or resizes windows.
 - Tap the Android right-side handle to toggle hosted WeChat Input; long-press
-  it for AI voice input.
+  it to dictate into and submit the current OpenCode prompt. WeChat's own
+  first-use voice/Plus consent remains the user's choice in each APK.
 - `pacman -Syu` updates Arch; `pacman -S PACKAGE` installs applications.
 - `omarchy-launch-browser URL` uses the selected browser desktop entry. The
   initial browser is Arlinux WebView; its private-browsing mode is unsupported.
@@ -56,7 +58,8 @@ bootstrap is `files/anhyprland/hyprland.lua`; it loads the updated guest adapter
 on each configuration reload. Current theme files live in
 `~/.local/state/omarchy/current/theme`.
 
-Logs are in `$XDG_RUNTIME_DIR/omarchy-shell.log`, `omarchy-launch.log`. Display time follows Android's timezone.
+Logs are in `$XDG_RUNTIME_DIR/omarchy-shell.log`, `opencode-desktop.log`,
+`omarchy-launch.log`. Display time follows Android's timezone.
 
 ## Accessibility
 

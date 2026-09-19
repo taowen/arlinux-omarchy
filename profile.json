@@ -38,7 +38,8 @@
       "XDG_CONFIG_HOME": "${HOME}/.config",
       "XDG_STATE_HOME": "${HOME}/.local/state",
       "XDG_CACHE_HOME": "${HOME}/.cache",
-      "QSG_INFO": "1"
+      "QSG_INFO": "1",
+      "ACCESSIBILITY_ENABLED": "1"
     }
   }
 }

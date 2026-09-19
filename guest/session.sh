@@ -7,8 +7,6 @@ export WAYLAND_DISPLAY=wayland-0
 export QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1
 chmod +x "$BIONICX_ROOTFS"/usr/lib/arlinux/guest/bin/*
 omarchy-apply-accessibility
-# Product menu uses the upstream renderer and supported Android desktop actions.
-cp "$BIONICX_ROOTFS/usr/lib/arlinux/guest/menu.json" "$OMARCHY_PATH/default/omarchy/omarchy-menu.jsonc"
 mkdir -p "$XDG_CONFIG_HOME" "$XDG_STATE_HOME/omarchy/current" "$XDG_CACHE_HOME"
 mkdir -p "$HOME/Desktop" "$HOME/Documents" "$HOME/Downloads" "$HOME/Pictures"
 mkdir -p "$XDG_CONFIG_HOME/gtk-3.0"
@@ -66,5 +64,12 @@ export -p > "$XDG_RUNTIME_DIR/omarchy-session.env"
 hyprctl reload || true
 quickshell -n -p "$OMARCHY_PATH/shell" > "$XDG_RUNTIME_DIR/omarchy-shell.log" 2>&1 &
 shell_pid=$!
-trap 'kill "$shell_pid" 2>/dev/null || true; rm -f "$XDG_RUNTIME_DIR/omarchy-session.env"' EXIT
+(
+  cd "$BIONICX_ROOTFS"
+  exec "$BIONICX_ROOTFS/opt/OpenCode/ai.opencode.desktop" \
+    --ozone-platform=x11 \
+    --force-renderer-accessibility
+) > "$XDG_RUNTIME_DIR/opencode-desktop.log" 2>&1 &
+opencode_pid=$!
+trap 'kill "$opencode_pid" "$shell_pid" 2>/dev/null || true; rm -f "$XDG_RUNTIME_DIR/omarchy-session.env"' EXIT
 wait "$shell_pid"

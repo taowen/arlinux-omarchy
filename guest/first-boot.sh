@@ -79,15 +79,42 @@ fi
 # Repeat this on interrupted first boots so a present package cannot leave an
 # incomplete pacman trust database behind.
 pacman-key --populate archlinuxarm archlinux archlinuxcn
-set -- xterm ttf-dejavu noto-fonts-cjk fontconfig xorg-xrdb dbus \
-    at-spi2-core python-dbus python-atspi patch wayland libx11 libxcb libxxf86vm \
+set -- xterm curl ca-certificates ttf-dejavu noto-fonts-cjk fontconfig xorg-xrdb dbus \
+    at-spi2-core python-dbus python-atspi python-gobject python-pip mpg123 \
+    wl-clipboard wtype xclip xdotool patch wayland libx11 libxcb libxxf86vm \
+    gtk3 nss libxss libxtst libsecret alsa-plugins libpulse \
+    cups libdrm mesa pango cairo \
     quickshell qt6-declarative qt6-svg qt6-wayland qt6-multimedia qt6-5compat qt6-imageformats \
-    inotify-tools hyprutils hyprwire re2 readline jq socat imagemagick wl-clipboard libnotify \
+    inotify-tools hyprutils hyprwire re2 readline jq socat imagemagick libnotify \
     ttf-jetbrains-mono-nerd noto-fonts bash-completion xdg-utils xdg-terminal-exec neovim thunar papirus-icon-theme
 if [ -n "$cn_setup" ] || ! pacman -Q "$@" >/dev/null 2>&1; then
     echo 'ARLINUX:正在更新 Arch ARM 并安装桌面组件…'
     pacman -Syyu --needed --noconfirm "$@"
 fi
+
+if ! python3 -c 'import dogtail, edge_tts' >/dev/null 2>&1; then
+    echo 'ARLINUX:正在安装桌面自动化和在线语音进度播报组件…'
+    python3 -m pip install --break-system-packages --no-cache-dir \
+        'dogtail==1.0.5' 'edge-tts==7.2.8'
+fi
+guest=$root/usr/lib/arlinux/guest
+python_source=$root/usr/lib/arlinux/python
+mkdir -p "$python_source/arlinux"
+cp "$guest/arlinux/"*.py "$python_source/arlinux/"
+python_site=$(python3 -c 'import sys; print("python%d.%d/site-packages" % sys.version_info[:2])')
+mkdir -p "$root/usr/lib/$python_site"
+printf '/usr/lib/arlinux/python\n' > "$root/usr/lib/$python_site/arlinux.pth"
+
+"$root/bin/sh" "$guest/opencode-install.sh"
+"$root/bin/sh" "$guest/opencode-instructions.sh"
+
+mkdir -p "$root/etc/pulse/client.conf.d" "$root/etc/alsa/conf.d"
+printf 'default-server = unix:%s/runtime/pulse-native\nautospawn = no\nenable-shm = no\n' \
+    "$BIONICX_FILES" > "$root/etc/pulse/client.conf.d/arlinux.conf"
+cat > "$root/etc/alsa/conf.d/99-arlinux-pulse.conf" <<'ALSA'
+pcm.!default { type pulse }
+ctl.!default { type pulse }
+ALSA
 
 # The compositor runs in Android. Extract only the CLI from the signed Arch
 # package, without installing the Linux compositor or its DRM backend. This
