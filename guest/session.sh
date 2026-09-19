@@ -5,8 +5,6 @@ export PATH="$BIONICX_ROOTFS/usr/lib/arlinux/guest/bin:$OMARCHY_PATH/bin:$PATH"
 export XDG_CONFIG_HOME="$HOME/.config" XDG_STATE_HOME="$HOME/.local/state" XDG_CACHE_HOME="$HOME/.cache"
 export WAYLAND_DISPLAY=wayland-0
 export QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1
-chmod +x "$BIONICX_ROOTFS"/usr/lib/arlinux/guest/bin/*
-omarchy-apply-accessibility
 mkdir -p "$XDG_CONFIG_HOME" "$XDG_STATE_HOME/omarchy/current" "$XDG_CACHE_HOME"
 mkdir -p "$HOME/Desktop" "$HOME/Documents" "$HOME/Downloads" "$HOME/Pictures"
 mkdir -p "$XDG_CONFIG_HOME/gtk-3.0"
@@ -18,11 +16,6 @@ gtk-icon-theme-name=Papirus-Dark
 gtk-font-name=Sans 11
 gtk-application-prefer-dark-theme=1
 GTK
-fi
-mkdir -p "$BIONICX_ROOTFS/usr/share/fonts/omarchy"
-if [[ ! -f $BIONICX_ROOTFS/usr/share/fonts/omarchy/omarchy.ttf ]]; then
-  cp "$OMARCHY_PATH/default/fonts/omarchy/omarchy.ttf" "$BIONICX_ROOTFS/usr/share/fonts/omarchy/"
-  fc-cache -f /usr/share/fonts/omarchy
 fi
 if [[ ! -f $XDG_STATE_HOME/omarchy/android-configured ]]; then
   cp -rn "$OMARCHY_PATH/config/." "$XDG_CONFIG_HOME/"

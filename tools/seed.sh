@@ -22,6 +22,33 @@ tar --delay-directory-restore --no-same-owner --exclude=./dev --exclude=./proc -
     --exclude=./boot --exclude=./usr/lib/modules -xzf "$archive" -C "$out"
 cp "$product/guest/mirrorlist" "$out/etc/pacman.d/mirrorlist"
 
+# Pin the community repository trust root before the phone ever contacts it.
+cn=archlinuxcn-keyring-20260505-1-any.pkg.tar.zst
+cn_sha=f8ed39c21babdf8fccfc36f603bc6d99c808332238d7e5297714a0f1f624e17a
+if [[ ! -f "$cache/$cn" ]]; then
+    curl -fL --retry 2 "https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/aarch64/$cn" -o "$cache/$cn.part"
+    mv "$cache/$cn.part" "$cache/$cn"
+fi
+echo "$cn_sha  $cache/$cn" | sha256sum -c -
+tar --zstd -xf "$cache/$cn" -C "$out" \
+    usr/share/pacman/keyrings/archlinuxcn.gpg \
+    usr/share/pacman/keyrings/archlinuxcn-trusted \
+    usr/share/pacman/keyrings/archlinuxcn-revoked
+
+python3 - "$out" <<'PY'
+import pathlib, shutil, sys
+root = pathlib.Path(sys.argv[1])
+shutil.rmtree(root / 'usr/lib/firmware', ignore_errors=True)
+for package in (root / 'var/lib/pacman/local').iterdir():
+    desc = package / 'desc'
+    if not desc.is_file(): continue
+    lines = desc.read_text(errors='replace').splitlines()
+    try: name = lines[lines.index('%NAME%') + 1]
+    except (ValueError, IndexError): continue
+    if name == 'linux-aarch64' or name == 'linux-firmware' or name.startswith('linux-firmware-'):
+        shutil.rmtree(package)
+PY
+
 python3 - "$product" "$out" <<'PYSEED'
 import json, pathlib, subprocess, sys
 product, out = map(pathlib.Path, sys.argv[1:])
@@ -64,3 +91,10 @@ units.write_text('\n'.join(
     if 'omarchy-fcitx5.service' not in line
 ) + '\n')
 PYSEED
+
+# The shipped shell source is immutable at runtime. Apply the Android AT-SPI
+# adaptation and install its icon font while the rootfs is assembled.
+patch --batch --forward --fuzz=0 -p1 -d "$out/usr/share/omarchy" \
+    < "$product/guest/shell-accessibility.patch"
+install -Dm644 "$out/usr/share/omarchy/default/fonts/omarchy/omarchy.ttf" \
+    "$out/usr/share/fonts/omarchy/omarchy.ttf"

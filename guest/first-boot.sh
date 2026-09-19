@@ -2,9 +2,6 @@
 set -eu
 root=${BIONICX_ROOTFS:?missing BIONICX_ROOTFS}
 export BIONICX_VIRTUAL_ROOT=1 BIONICX_REWRITE_ABSOLUTE_SYMLINKS=1
-# The launcher supervises descendants; do not leave the bootstrap signing
-# agent running after first boot has finished.
-trap 'gpgconf --homedir "$root/etc/pacman.d/gnupg" --kill gpg-agent' EXIT
 # libalpm canonicalizes these paths inside libc, so supply real app paths.
 mkdir -p "$root/etc/pacman.d/gnupg" "$root/var/lib/pacman" "$root/var/cache/pacman/pkg" "$root/var/log"
 cat > "$root/etc/pacman.d/arlinux.conf" <<EOF
@@ -38,47 +35,23 @@ for hook in 20-systemd-sysusers.hook 21-systemd-tmpfiles.hook \
             10-openssh-mark-sshd-for-restart.hook; do
     ln -sfn /dev/null "$root/etc/pacman.d/hooks/$hook"
 done
-# This userspace runs on Android's kernel; keep the package database accurate.
-for pkg in linux-aarch64 linux-firmware; do
-    if pacman -Q "$pkg" >/dev/null 2>&1; then
-        pacman -Rns --noconfirm "$pkg"
-    fi
-done
-if [ ! -f "$root/etc/pacman.d/gnupg/arlinux-populated" ]; then
-    echo 'ARLINUX:正在初始化 Arch ARM 签名密钥…'
-    pacman-key --init
-    pacman-key --populate archlinuxarm
-    touch "$root/etc/pacman.d/gnupg/arlinux-populated"
-fi
-# Refresh the product's default repository on APK upgrades too. Preserve a
-# repository already configured by the user, including their chosen mirror.
+[ -f "$root/etc/pacman.d/gnupg/arlinux-populated" ] || {
+    echo 'Bundle is missing its prebuilt pacman trust database' >&2; exit 1;
+}
+# Omarchy-only packages come from archlinuxcn. Keep it after the official
+# repositories so it cannot replace the base Arch Linux ARM runtime.
 if ! grep -q '^\[archlinuxcn\]$' "$root/etc/pacman.conf"; then
-    repo_file="$root/usr/lib/arlinux/guest/archlinuxcn.conf"
-    awk -v repo="$repo_file" '
-        BEGIN {
-            while ((getline line < repo) > 0) block = block line ORS
-            close(repo)
-        }
-        !added && $0 == "[core]" { printf "%s\n", block; added = 1 }
-        { print }
-        END { if (!added) printf "\n%s", block }
-    ' "$root/etc/pacman.conf" > "$root/etc/pacman.conf.new"
-    mv "$root/etc/pacman.conf.new" "$root/etc/pacman.conf"
+    printf '\n' >> "$root/etc/pacman.conf"
+    cat "$root/usr/lib/arlinux/guest/archlinuxcn.conf" >> "$root/etc/pacman.conf"
 fi
-cn_setup=
-if ! pacman -Q archlinuxcn-keyring >/dev/null 2>&1; then
-    echo 'ARLINUX:正在初始化 Arch Linux 中文社区软件源…'
-    # The CN keyring is signed by an Arch packager. Trust it through the
-    # packaged Arch keyring, then install CN's keyring with signatures enabled.
-    pacman-key --populate archlinux
-    pacman -Sy --needed --noconfirm archlinuxcn-keyring
-    cn_setup=1
+runtime_epoch=$root/var/lib/arlinux/runtime-epoch-1
+if [ ! -f "$runtime_epoch" ]; then
+    echo 'ARLINUX:正在更新基础运行库…'
+    pacman -Syy --needed --noconfirm glibc coreutils bash pacman
+    mkdir -p "$(dirname "$runtime_epoch")"
+    : > "$runtime_epoch"
+    exit 75
 fi
-# Installing the keyring package only places its key files on disk. Import
-# and locally sign its current trusted keys before installing CN packages.
-# Repeat this on interrupted first boots so a present package cannot leave an
-# incomplete pacman trust database behind.
-pacman-key --populate archlinuxarm archlinux archlinuxcn
 set -- xterm curl ca-certificates ttf-dejavu noto-fonts-cjk fontconfig xorg-xrdb dbus \
     at-spi2-core python-dbus python-atspi python-gobject python-pip mpg123 \
     wl-clipboard wtype xclip xdotool patch wayland libx11 libxcb libxxf86vm \
@@ -87,7 +60,7 @@ set -- xterm curl ca-certificates ttf-dejavu noto-fonts-cjk fontconfig xorg-xrdb
     quickshell qt6-declarative qt6-svg qt6-wayland qt6-multimedia qt6-5compat qt6-imageformats \
     inotify-tools hyprutils hyprwire re2 readline jq socat imagemagick libnotify \
     ttf-jetbrains-mono-nerd noto-fonts bash-completion xdg-utils xdg-terminal-exec neovim thunar papirus-icon-theme
-if [ -n "$cn_setup" ] || ! pacman -Q "$@" >/dev/null 2>&1; then
+if ! pacman -Q "$@" >/dev/null 2>&1; then
     echo 'ARLINUX:正在更新 Arch ARM 并安装桌面组件…'
     pacman -Syyu --needed --noconfirm "$@"
 fi
