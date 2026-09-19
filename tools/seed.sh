@@ -38,4 +38,29 @@ try:
 finally:
     archive.stdout.close()
 if archive.wait(): raise SystemExit('Omarchy source archive failed')
+# Hosted WeChat Input replaces Omarchy's Linux input-method service.
+for relative in (
+    'default/environment.d/10-omarchy-fcitx.conf',
+    'default/systemd/user/omarchy-fcitx5.service',
+    'bin/omarchy-restart-xcompose',
+    'migrations/1785167800.sh',
+):
+    path = destination / relative
+    if path.exists(): path.unlink()
+config = destination / 'config/fcitx5'
+if config.exists():
+    import shutil
+    shutil.rmtree(config)
+autostart = destination / 'config/autostart/org.fcitx.Fcitx5.desktop'
+if autostart.exists(): autostart.unlink()
+packages = destination / 'install/omarchy-base.packages'
+packages.write_text('\n'.join(
+    line for line in packages.read_text().splitlines()
+    if not line.startswith('fcitx5')
+) + '\n')
+units = destination / 'install/user/first-run/enable-user-units.sh'
+units.write_text('\n'.join(
+    line for line in units.read_text().splitlines()
+    if 'omarchy-fcitx5.service' not in line
+) + '\n')
 PYSEED

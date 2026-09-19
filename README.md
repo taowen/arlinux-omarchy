@@ -42,8 +42,8 @@ required at runtime.
 - Super+Space or the top-left icon opens the Omarchy menu. Super+Alt+Space
   opens the application list. Shortcuts require a physical keyboard.
 - Alt+F4 closes a window. Super+mouse drag moves or resizes windows.
-- Swipe inward from the Android window's right side to show or hide the Linux
-  touch keyboard, then tap `中 / En` to switch the Fcitx5 input language.
+- Tap the Android right-side handle to toggle hosted WeChat Input; long-press
+  it for AI voice input.
 - `pacman -Syu` updates Arch; `pacman -S PACKAGE` installs applications.
 - `omarchy-launch-browser URL` uses the selected browser desktop entry. The
   initial browser is Arlinux WebView; its private-browsing mode is unsupported.

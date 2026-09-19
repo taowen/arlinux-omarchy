@@ -7,9 +7,9 @@ workspaces, Thunar, the Android WebView browser, XTerm and theme changes.
 It also checks that closed application supervisors are reaped.
 
 The default desktop starts with the Tokyo Night landscape wallpaper and panel.
-There is no automatically opened terminal, Android extra-key bar or keyboard
-handle. Physical key events and pointer input remain; a right-side inward swipe
-toggles the Linux touch keyboard and its `中 / En` control switches Fcitx5.
+There is no automatically opened terminal or Android extra-key bar. Physical
+key events and pointer input remain; tapping the Android right-side handle
+toggles hosted WeChat Input and long-pressing it starts an AI voice interaction.
 
 ## Verified 2026-09-13
 

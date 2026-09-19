@@ -12,7 +12,7 @@
     "workingDirectory": "${HOME}",
     "arguments": [
       "--",
-      "${RUNTIME}/usr/lib/arlinux/fcitx5-session.sh",
+      "${RUNTIME}/usr/lib/arlinux/accessibility-session.sh",
       "${RUNTIME}/usr/bin/bash",
       "${RUNTIME}/usr/lib/arlinux/guest/session.sh"
     ],
