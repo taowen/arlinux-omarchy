@@ -2,7 +2,8 @@
 set -euo pipefail
 product="$(cd "$(dirname "$0")/.." && pwd)"
 out="${1:?rootfs output required}"
-cache="${ARLINUX_DOWNLOAD_CACHE:-/var/cache/arlinux/downloads}"
+cache_root="${ARLINUX_CACHE_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/arlinux}"
+cache="${ARLINUX_DOWNLOAD_CACHE:-$cache_root/downloads}"
 mkdir -p "$cache" "$out"
 python3 - "$product" "$cache" <<'PY'
 import hashlib, json, pathlib, subprocess, sys
