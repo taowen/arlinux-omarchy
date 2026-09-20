@@ -60,7 +60,6 @@ shell_pid=$!
 (
   cd "$BIONICX_ROOTFS"
   exec "$BIONICX_ROOTFS/opt/OpenCode/ai.opencode.desktop" \
-    --ozone-platform=x11 \
     --force-renderer-accessibility
 ) > "$XDG_RUNTIME_DIR/opencode-desktop.log" 2>&1 &
 opencode_pid=$!
