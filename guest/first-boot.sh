@@ -46,7 +46,7 @@ if ! grep -q '^\[archlinuxcn\]$' "$root/etc/pacman.conf"; then
 fi
 runtime_epoch=$root/var/lib/arlinux/runtime-epoch-1
 if [ ! -f "$runtime_epoch" ]; then
-    echo 'ARLINUX:正在更新基础运行库…'
+    echo 'ARLINUX:Updating the base runtime...'
     pacman -Syy --needed --noconfirm glibc coreutils bash pacman
     mkdir -p "$(dirname "$runtime_epoch")"
     : > "$runtime_epoch"
@@ -61,12 +61,12 @@ set -- xterm curl ca-certificates ttf-dejavu noto-fonts-cjk fontconfig xorg-xrdb
     inotify-tools hyprutils hyprwire re2 readline jq socat imagemagick libnotify \
     ttf-jetbrains-mono-nerd noto-fonts bash-completion xdg-utils xdg-terminal-exec neovim thunar papirus-icon-theme
 if ! pacman -Q "$@" >/dev/null 2>&1; then
-    echo 'ARLINUX:正在更新 Arch ARM 并安装桌面组件…'
+    echo 'ARLINUX:Updating Arch Linux ARM and installing desktop components...'
     pacman -Syyu --needed --noconfirm "$@"
 fi
 
 if ! python3 -c 'import dogtail, edge_tts' >/dev/null 2>&1; then
-    echo 'ARLINUX:正在安装桌面自动化和在线语音进度播报组件…'
+    echo 'ARLINUX:Installing desktop automation and online speech support...'
     python3 -m pip install --break-system-packages --no-cache-dir \
         'dogtail==1.0.5' 'edge-tts==7.2.8'
 fi
@@ -93,7 +93,7 @@ ALSA
 # package, without installing the Linux compositor or its DRM backend. This
 # also avoids coupling the client to ARM repository Aquamarine rebuild timing.
 if [ ! -x "$root/usr/bin/hyprctl" ]; then
-    echo 'ARLINUX:正在安装 Hyprland 控制客户端…'
+    echo 'ARLINUX:Installing the Hyprland control client...'
     archive=$(pacman -Spdd --print-format '%f' hyprland)
     pacman -Sddw --noconfirm hyprland
     bsdtar -xOf "$root/var/cache/pacman/pkg/$archive" usr/bin/hyprctl > "$root/usr/bin/hyprctl.new"

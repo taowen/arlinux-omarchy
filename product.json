@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schemas/product.schema.json",
   "name": "Arlinux Omarchy",
   "compositor": "hyprland",
   "glibcVersion": "2.43",

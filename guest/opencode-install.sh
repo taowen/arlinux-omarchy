@@ -7,7 +7,7 @@ guest=$root/usr/lib/arlinux/guest
 manifest=$guest/opencode-downloads.tsv
 
 row=$(awk -F '\t' '$1 == "opencode-desktop" { print; exit }' "$manifest")
-[ -n "$row" ] || { echo 'OpenCode 下载清单无效' >&2; exit 1; }
+[ -n "$row" ] || { echo 'Invalid OpenCode download manifest' >&2; exit 1; }
 old_ifs=$IFS
 IFS=$(printf '\t')
 set -- $row
@@ -28,18 +28,18 @@ mkdir -p "$cache"
 if [ ! -f "$package" ] ||
         [ "$(sha256sum "$package" | awk '{print $1}')" != "$expected" ]; then
     rm -f "$package.part"
-    echo "ARLINUX:正在下载 OpenCode Desktop $version…"
+    echo "ARLINUX:Downloading OpenCode Desktop $version..."
     curl -fL --retry 3 --connect-timeout 20 -o "$package.part" "$url"
     actual=$(sha256sum "$package.part" | awk '{print $1}')
     [ "$actual" = "$expected" ] || {
         rm -f "$package.part"
-        echo 'OpenCode Desktop SHA-256 校验失败' >&2
+        echo 'OpenCode Desktop SHA-256 verification failed' >&2
         exit 1
     }
     mv "$package.part" "$package"
 fi
 
-echo "ARLINUX:正在安装 OpenCode Desktop $version…"
+echo "ARLINUX:Installing OpenCode Desktop $version..."
 rm -rf "$root/opt/OpenCode"
 # Arch's standard libarchive reads the official RPM payload directly.
 bsdtar -xpf "$package" -C "$root"
@@ -48,6 +48,6 @@ ln -sfn /opt/OpenCode/ai.opencode.desktop "$root/usr/bin/ai.opencode.desktop"
 chmod 755 "$root/opt/OpenCode/ai.opencode.desktop" "$root/opt/OpenCode/chrome-sandbox"
 printf '%s\n' "$version" > "$marker"
 [ -x "$root/opt/OpenCode/ai.opencode.desktop" ] || {
-    echo 'OpenCode Desktop 安装后缺少主程序' >&2
+    echo 'OpenCode Desktop executable is missing after installation' >&2
     exit 1
 }
