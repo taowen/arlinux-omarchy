@@ -11,10 +11,10 @@ From an `arlinux-rootfs` checkout:
 
 ```bash
 ./build.sh build omarchy
-./build.sh verify out/omarchy.arlinux-rootfs
+./build.sh verify out/omarchy.zip
 ```
 
-The build produces `out/omarchy.arlinux-rootfs`. See the rootfs project's
+The build produces `out/omarchy.zip`. See the rootfs project's
 [distribution authoring guide](https://github.com/taowen/arlinux-rootfs/blob/main/docs/DISTRIBUTION-AUTHORING.md)
 for the interface implemented here.
 
