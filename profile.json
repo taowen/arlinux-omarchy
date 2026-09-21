@@ -37,7 +37,10 @@
       "XDG_STATE_HOME": "${HOME}/.local/state",
       "XDG_CACHE_HOME": "${HOME}/.cache",
       "QSG_INFO": "1",
-      "ACCESSIBILITY_ENABLED": "1"
+      "ACCESSIBILITY_ENABLED": "1",
+      "GTK_IM_MODULE": "ibus",
+      "QT_IM_MODULE": "ibus",
+      "XMODIFIERS": "@im=ibus"
     }
   }
 }
