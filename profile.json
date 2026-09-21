@@ -19,7 +19,6 @@
     "environment": {
       "DISPLAY": "${DISPLAY}",
       "HOME": "${HOME}",
-      "TMPDIR": "${FILES}/runtime",
       "XDG_RUNTIME_DIR": "${FILES}/runtime",
       "XKB_CONFIG_ROOT": "${FILES}/xkb",
       "GDK_BACKEND": "wayland,x11",

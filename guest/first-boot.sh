@@ -101,11 +101,3 @@ if [ ! -x "$root/usr/bin/hyprctl" ]; then
     mv "$root/usr/bin/hyprctl.new" "$root/usr/bin/hyprctl"
     printf '%s\n' "$archive" > "$root/usr/lib/arlinux/hyprctl-package"
 fi
-
-# Installed Wayland clients use the distribution's current protocol symbols.
-# The graphics overlay contains older bootstrap fallbacks for bare seeds.
-for so in libwayland-client.so.0 libwayland-server.so.0 libwayland-egl.so.1; do
-    if [ -e "$root/usr/lib/$so" ]; then
-        rm -f "$root/usr/lib/arlinux-platform/$so"
-    fi
-done
