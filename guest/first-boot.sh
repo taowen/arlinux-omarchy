@@ -3,7 +3,9 @@ set -eu
 root=${BIONICX_ROOTFS:?missing BIONICX_ROOTFS}
 export BIONICX_VIRTUAL_ROOT=1 BIONICX_REWRITE_ABSOLUTE_SYMLINKS=1
 if [ ! -s "$root/etc/machine-id" ]; then
+    chmod u+w "$root/etc/machine-id"
     tr -d '-' < /proc/sys/kernel/random/uuid > "$root/etc/machine-id"
+    chmod 444 "$root/etc/machine-id"
 fi
 # libalpm canonicalizes these paths inside libc, so supply real app paths.
 mkdir -p "$root/etc/pacman.d/gnupg" "$root/var/lib/pacman" "$root/var/cache/pacman/pkg" "$root/var/log"
