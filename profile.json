@@ -30,7 +30,6 @@
       "LANG": "C.UTF-8",
       "LC_ALL": "C.UTF-8",
       "QSG_RHI_BACKEND": "opengl",
-      "BIONICX_FORK_EXEC": "1",
       "OMARCHY_PATH": "${RUNTIME}/usr/share/omarchy",
       "XDG_CURRENT_DESKTOP": "Hyprland",
       "XDG_SESSION_TYPE": "wayland",
