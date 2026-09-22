@@ -26,7 +26,6 @@ for the interface implemented here.
 - `tools/post-seed.sh` initializes trusted package signing keys.
 - `guest/first-boot.sh` installs native desktop dependencies.
 - `guest/session.sh` starts the shell and OpenCode on anhyprland.
-- `native/product-policy.h` contains narrowly scoped runtime compatibility.
 
 The adaptation removes services owned by Android and keeps upstream source
 changes as an explicit patch. Shared glibc, graphics, bundle, and host UI code
