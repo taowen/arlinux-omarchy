@@ -34,6 +34,9 @@ if [[ ! -f $XDG_STATE_HOME/omarchy/android-configured ]]; then
   if [[ ! -f $XDG_CONFIG_HOME/mimeapps.list ]]; then
     printf '[Default Applications]\nx-scheme-handler/http=arlinux-browser.desktop\nx-scheme-handler/https=arlinux-browser.desktop\n' > "$XDG_CONFIG_HOME/mimeapps.list"
   fi
+  # Thunar's details view exposes file rows and names through standard AT-SPI;
+  # its GTK icon view exposes only the containing pane.
+  xfconf-query -c thunar -p /last-view -n -t string -s ThunarDetailsView
   touch "$XDG_STATE_HOME/omarchy/android-configured"
 fi
 for ((attempt=0; attempt<100; attempt++)); do
@@ -59,7 +62,7 @@ quickshell -n -p "$OMARCHY_PATH/shell" > "$XDG_RUNTIME_DIR/omarchy-shell.log" 2>
 shell_pid=$!
 (
   cd "$BIONICX_ROOTFS"
-  exec "$BIONICX_ROOTFS/opt/OpenCode/ai.opencode.desktop" \
+  exec env XDG_SESSION_TYPE=x11 "$BIONICX_ROOTFS/opt/OpenCode/ai.opencode.desktop" \
     --force-renderer-accessibility
 ) > "$XDG_RUNTIME_DIR/opencode-desktop.log" 2>&1 &
 opencode_pid=$!

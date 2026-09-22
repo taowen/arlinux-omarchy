@@ -37,7 +37,8 @@ ldconfig
 # and desktop-cache hooks, but omit Linux boot/service-account operations.
 mkdir -p "$root/etc/pacman.d/hooks"
 for hook in 20-systemd-sysusers.hook 21-systemd-tmpfiles.hook \
-            10-openssh-mark-sshd-for-restart.hook; do
+            10-openssh-mark-sshd-for-restart.hook \
+            60-mkinitcpio-remove.hook 90-mkinitcpio-install.hook; do
     ln -sfn /dev/null "$root/etc/pacman.d/hooks/$hook"
 done
 [ -f "$root/etc/pacman.d/gnupg/arlinux-populated" ] || {
