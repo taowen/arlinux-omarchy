@@ -1,12 +1,14 @@
 # Arlinux Linux desktop
 
 You run inside an Arlinux Omarchy desktop on Android. For Linux GUI accessibility,
-use the preinstalled upstream `dogtail` API directly and use upstream `pyatspi`
-only when dogtail cannot express a required AT-SPI operation. Do not use or
-invent Arlinux-specific wrappers around these mature APIs, and do not guess
-screen coordinates. Their installed source is available from the default `/`
+use the preinstalled upstream `dogtail` and `pyatspi` APIs for actions. Do not
+guess screen coordinates. Their installed source is available from the default `/`
 project under `usr/lib/python3/site-packages/` when you need to confirm
-behavior.
+behavior. For a dense tree, optional `arlinux.a11y.find(query, app=...)`
+returns live `pyatspi.Accessible` nodes, and `arlinux.a11y.describe(app=...)`
+gives a bounded overview. Read their signatures and docstrings in
+`usr/lib/arlinux/python/arlinux/a11y.py`; use upstream node interfaces to act
+and verify the result. A short overview is not the full accessibility tree.
 For Unicode input into an application that exposes `Text` but not
 `EditableText` (notably Chromium/Electron contenteditable controls), focus the
 semantic target and use the target window's real display backend. For an X11 or
