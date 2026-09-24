@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/product.schema.json",
-  "name": "Arlinux Omarchy",
+  "name": "Omarchy",
   "compositor": "hyprland",
   "glibcVersion": "2.43",
   "libraryDirectories": [

@@ -74,6 +74,7 @@ fi
 if ! python3 -c 'import dogtail, edge_tts' >/dev/null 2>&1; then
     echo 'ARLINUX:Installing desktop automation and online speech support...'
     python3 -m pip install --break-system-packages --no-cache-dir \
+        --index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple \
         'dogtail==1.0.5' 'edge-tts==7.2.8'
 fi
 guest=$root/usr/lib/arlinux/guest
@@ -84,7 +85,6 @@ python_site=$(python3 -c 'import sys; print("python%d.%d/site-packages" % sys.ve
 mkdir -p "$root/usr/lib/$python_site"
 printf '/usr/lib/arlinux/python\n' > "$root/usr/lib/$python_site/arlinux.pth"
 
-"$root/bin/sh" "$guest/opencode-install.sh"
 "$root/bin/sh" "$guest/opencode-instructions.sh"
 
 mkdir -p "$root/etc/pulse/client.conf.d" "$root/etc/alsa/conf.d"
