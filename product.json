@@ -2,7 +2,6 @@
   "$schema": "../../schemas/product.schema.json",
   "name": "Omarchy",
   "compositor": "hyprland",
-  "glibcVersion": "2.43",
   "libraryDirectories": [
     "usr/lib"
   ],

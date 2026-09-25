@@ -1,7 +1,6 @@
 #!/bin/sh
 set -eu
-root=${BIONICX_ROOTFS:?missing BIONICX_ROOTFS}
-export BIONICX_VIRTUAL_ROOT=1 BIONICX_REWRITE_ABSOLUTE_SYMLINKS=1
+root=/
 if [ ! -s "$root/etc/machine-id" ]; then
     chmod u+w "$root/etc/machine-id"
     tr -d '-' < /proc/sys/kernel/random/uuid > "$root/etc/machine-id"
@@ -24,14 +23,7 @@ fi
 # Android already assigns this APK its UID; it cannot switch to the ALPM user.
 # The tested Android kernel does not implement Landlock.
 sed -i '/^DownloadUser[[:space:]]*=/d' "$root/etc/pacman.conf"
-# Preserve the platform cache generator when glibc is upgraded by pacman.
-if ! grep -q '^NoExtract = usr/bin/ldconfig$' "$root/etc/pacman.conf"; then
-    sed -i '/^\[options\]/a NoExtract = usr/bin/ldconfig' "$root/etc/pacman.conf"
-fi
-cp "$root/usr/lib/arlinux-platform/ldconfig" "$root/usr/bin/ldconfig"
-chmod 755 "$root/usr/bin/ldconfig"
 mkdir -p "$root/etc/ld.so.conf.d"
-printf '/usr/lib/arlinux-platform\n/usr/lib\n' > "$root/etc/ld.so.conf.d/arlinux.conf"
 ldconfig
 # Android supplies identity and service management. Keep package scriptlets
 # and desktop-cache hooks, but omit Linux boot/service-account operations.
