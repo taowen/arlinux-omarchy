@@ -207,15 +207,73 @@ def send_prompt() -> None:
     raise RuntimeError("no new voice text appeared in OpenCode prompt")
 
 
+def submit_text_prompt(message: str) -> None:
+    """Submit an explicit Omarchy task to the already running OpenCode window."""
+    if not message.strip():
+        raise RuntimeError("the agent prompt is empty")
+    raise_opencode()
+    prompt = open_prompt()
+    if text_of(prompt).replace("\u200b", "").strip():
+        raise RuntimeError("OpenCode has an unsent draft; send or clear it first")
+    if not prompt.queryComponent().grabFocus():
+        raise RuntimeError("could not focus OpenCode prompt")
+    # Electron's AT-SPI Text interface is read-only. Keep an X11 clipboard
+    # owner alive while pasting Unicode, just like a normal desktop user.
+    clipboard = subprocess.Popen(
+        ["xclip", "-selection", "clipboard", "-quiet"],
+        stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+    )
+    try:
+        clipboard.stdin.write(message.encode("utf-8"))
+        clipboard.stdin.close()
+        subprocess.run(["xdotool", "key", "--clearmodifiers", "ctrl+v"], check=True)
+        deadline = time.monotonic() + 5
+        while time.monotonic() < deadline:
+            try:
+                prompt = find_named(find_opencode(), "entry", "Prompt")
+                if text_of(prompt).replace("\u200b", "").strip() == message.strip():
+                    break
+            except Exception:
+                pass
+            time.sleep(0.1)
+        else:
+            raise RuntimeError("OpenCode did not receive the task text")
+        if not prompt.queryComponent().grabFocus():
+            raise RuntimeError("could not refocus OpenCode prompt")
+        subprocess.run(["xdotool", "key", "--clearmodifiers", "Return"], check=True)
+        deadline = time.monotonic() + 5
+        while time.monotonic() < deadline:
+            try:
+                prompt = find_named(find_opencode(), "entry", "Prompt")
+                if not text_of(prompt).replace("\u200b", "").strip():
+                    print("sent")
+                    return
+            except Exception:
+                pass
+            time.sleep(0.1)
+        raise RuntimeError("OpenCode did not accept the task")
+    finally:
+        clipboard.terminate()
+        try:
+            clipboard.wait(timeout=2)
+        except subprocess.TimeoutExpired:
+            clipboard.kill()
+
+
 def main() -> int:
-    if len(sys.argv) != 2 or sys.argv[1] not in {"focus", "send"}:
-        print("usage: opencode-voice.py focus|send", file=sys.stderr)
+    if len(sys.argv) < 2 or sys.argv[1] not in {"focus", "send", "prompt"}:
+        print("usage: opencode-voice.py focus|send|prompt MESSAGE...", file=sys.stderr)
+        return 2
+    if sys.argv[1] != "prompt" and len(sys.argv) != 2:
+        print("focus and send take no arguments", file=sys.stderr)
         return 2
     select_accessibility_bus()
     if sys.argv[1] == "focus":
         focus_prompt()
-    else:
+    elif sys.argv[1] == "send":
         send_prompt()
+    else:
+        submit_text_prompt(" ".join(sys.argv[2:]))
     return 0
 
 

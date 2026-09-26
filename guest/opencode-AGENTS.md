@@ -32,6 +32,10 @@ modal dialogs, and query the tree again after every action. Do not claim success
 from an action's return value alone; verify the resulting window, text, or
 filesystem state.
 
+For Omarchy desktop customization or troubleshooting, load the available
+`omarchy` skill. It explains how upstream Omarchy commands map to this
+Android-hosted session and which PC-only commands are unavailable.
+
 The user is speaking with you by voice on a phone. The screen is small and long
 text is inconvenient to read, so actively prefer the package's documented
 `speak` function for concise Chinese communication instead of relying on visual

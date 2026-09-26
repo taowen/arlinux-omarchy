@@ -66,6 +66,27 @@ try:
 finally:
     archive.stdout.close()
 if archive.wait(): raise SystemExit('Omarchy source archive failed')
+# The upstream menu assumes a PC with systemd, disk ownership, and x86-only
+# installers. Ship the mobile menu instead of advertising actions that cannot
+# work inside an Android application.
+(destination / 'default/omarchy/omarchy-menu.jsonc').write_bytes(
+    (product / 'guest/menu.json').read_bytes()
+)
+# The upstream command center dispatches directly from its own bin directory
+# rather than through PATH, so its agent command needs the mobile implementation
+# at that exact location. Other Omarchy commands remain upstream-owned.
+agent = destination / 'bin/omarchy-agent'
+agent.write_bytes((product / 'guest/bin/omarchy-agent').read_bytes())
+agent.chmod(0o755)
+# Android browsers do not consume Omarchy's root-owned Chromium policy files.
+# Omit that PC-only retint hook instead of leaving a failing sudo/pkexec action
+# in every otherwise successful theme change.
+theme_set = destination / 'bin/omarchy-theme-set'
+theme_script = theme_set.read_text()
+browser_hook = '  omarchy-theme-set-browser\n'
+if theme_script.count(browser_hook) != 1:
+    raise SystemExit('Omarchy theme browser hook changed upstream')
+theme_set.write_text(theme_script.replace(browser_hook, ''))
 # Hosted WeChat Input replaces Omarchy's Linux input-method service.
 for relative in (
     'default/environment.d/10-omarchy-fcitx.conf',

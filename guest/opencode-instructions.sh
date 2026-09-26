@@ -14,6 +14,10 @@ begin='<!-- BEGIN ARLINUX MANAGED INSTRUCTIONS -->'
 end='<!-- END ARLINUX MANAGED INSTRUCTIONS -->'
 
 mkdir -p "$config" "$plugin_dir" "$root/usr/local/bin"
+mkdir -p "$config/skills"
+if [ ! -e "$config/skills/omarchy" ] && [ ! -L "$config/skills/omarchy" ]; then
+    ln -s "$guest/opencode-omarchy-skill" "$config/skills/omarchy"
+fi
 if [ -f "$agents" ]; then
     awk -v begin="$begin" -v end="$end" '
         $0 == begin { managed = 1; next }

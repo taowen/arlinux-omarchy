@@ -50,6 +50,11 @@
     ],
     "action": "theme=$(omarchy-theme-switcher); [[ -n $theme ]] && omarchy-theme-set \"$theme\""
   },
+  "style.community-theme": {
+    "icon": "󰋑",
+    "label": "Add community theme",
+    "action": "omarchy-launch-floating-terminal-with-presentation omarchy-theme-install"
+  },
   "style.background": {
     "icon": "",
     "label": "Background",
@@ -121,6 +126,64 @@
     "when": "[[ -f ~/.config/hypr/input.lua ]]",
     "action": "omarchy-launch-config-editor \"$HOME/.config/hypr/input.lua\""
   },
+  "setup.plugins": {
+    "icon": "󰐱",
+    "label": "Plugins"
+  },
+  "setup.plugins.enable": {
+    "icon": "󰄬",
+    "label": "Enable plugin",
+    "action": "omarchy-menu-plugin enable"
+  },
+  "setup.plugins.disable": {
+    "icon": "󰅖",
+    "label": "Disable plugin",
+    "action": "omarchy-menu-plugin disable"
+  },
+  "setup.plugins.add": {
+    "icon": "󰐱",
+    "label": "Add plugin from Git",
+    "action": "omarchy-launch-floating-terminal-with-presentation omarchy-plugin-add"
+  },
+  "work": {
+    "icon": "󰙨",
+    "label": "Work"
+  },
+  "work.agent": {
+    "icon": "󰚩",
+    "label": "OpenCode",
+    "action": "omarchy agent"
+  },
+  "work.agent-task": {
+    "icon": "󰭹",
+    "label": "Ask OpenCode",
+    "action": "omarchy-launch-terminal -e bash -c 'read -rp \"Task: \" task; if [[ -n $task ]]; then omarchy agent prompt \"$task\"; fi; read -rp \"Press Enter to close\"'"
+  },
+  "work.editor": {
+    "icon": "",
+    "label": "Neovim",
+    "action": "omarchy-launch-tui nvim"
+  },
+  "work.terminal": {
+    "icon": "",
+    "label": "Terminal",
+    "action": "omarchy-launch-terminal"
+  },
+  "work.monitor": {
+    "icon": "󰍛",
+    "label": "System monitor",
+    "action": "omarchy-launch-tui btop"
+  },
+  "work.documents": {
+    "icon": "󰈙",
+    "label": "Document viewer",
+    "action": "evince"
+  },
+  "work.video": {
+    "icon": "󰕧",
+    "label": "Video player",
+    "action": "mpv --player-operation-mode=pseudo-gui"
+  },
   "files": {
     "icon": "",
     "label": "Files",
@@ -143,7 +206,31 @@
   "packages.update": {
     "icon": "",
     "label": "Update Arch packages",
-    "action": "omarchy-launch-terminal -e bash -c 'BIONICX_VIRTUAL_ROOT=1 pacman -Syu; read -rp \"Press Enter to close\"'"
+    "action": "omarchy-launch-terminal -e bash -c 'omarchy-pacman update; read -rp \"Press Enter to close\"'"
+  },
+  "packages.install": {
+    "icon": "󰉉",
+    "label": "Install Arch package",
+    "action": "omarchy-launch-terminal -e bash -c 'read -rp \"Package name: \" package; if [[ -n $package ]]; then omarchy-pacman install \"$package\"; fi; read -rp \"Press Enter to close\"'"
+  },
+  "packages.development": {
+    "icon": "󰵮",
+    "label": "Development stack"
+  },
+  "packages.development.node": {
+    "icon": "",
+    "label": "Node.js and npm",
+    "action": "omarchy-launch-terminal -e bash -c 'omarchy-pacman install nodejs npm; read -rp \"Press Enter to close\"'"
+  },
+  "packages.development.ruby": {
+    "icon": "",
+    "label": "Ruby",
+    "action": "omarchy-launch-terminal -e bash -c 'omarchy-pacman install ruby; read -rp \"Press Enter to close\"'"
+  },
+  "packages.development.php": {
+    "icon": "",
+    "label": "PHP and Composer",
+    "action": "omarchy-launch-terminal -e bash -c 'omarchy-pacman install php composer; read -rp \"Press Enter to close\"'"
   },
   "packages.terminal": {
     "icon": "",

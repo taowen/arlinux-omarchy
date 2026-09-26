@@ -10,6 +10,4 @@ while (( $# )); do
   esac
 done
 if (( ${#args[@]} == 0 )); then args=(-e "$SHELL" -i); fi
-exec xterm -ut -u8 -fa 'JetBrainsMono Nerd Font' -fs 14 \
-  -bg "$(omarchy-theme-color background)" -fg "$(omarchy-theme-color foreground)" \
-  -title 'Arlinux Omarchy' "${args[@]}"
+exec foot --app-id=org.omarchy.terminal "${args[@]}"

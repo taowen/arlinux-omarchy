@@ -31,6 +31,10 @@ if [[ ! -f $XDG_STATE_HOME/omarchy/android-configured ]]; then
   mkdir -p "$HOME/.local/share/applications"
   cp "$BIONICX_ROOTFS/usr/lib/arlinux/guest/arlinux-omarchy-terminal.desktop" "$HOME/.local/share/applications/"
   printf 'arlinux-omarchy-terminal.desktop\n' > "$XDG_CONFIG_HOME/xdg-terminals.list"
+  mkdir -p "$XDG_CONFIG_HOME/omarchy/defaults"
+  if [[ ! -e $XDG_CONFIG_HOME/omarchy/defaults/agent ]]; then
+    printf 'opencode\n' > "$XDG_CONFIG_HOME/omarchy/defaults/agent"
+  fi
   if [[ ! -f $XDG_CONFIG_HOME/mimeapps.list ]]; then
     printf '[Default Applications]\nx-scheme-handler/http=arlinux-browser.desktop\nx-scheme-handler/https=arlinux-browser.desktop\n' > "$XDG_CONFIG_HOME/mimeapps.list"
   fi

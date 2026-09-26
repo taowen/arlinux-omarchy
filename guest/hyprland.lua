@@ -15,11 +15,6 @@ o.launch = function(command) return command end
 hl.monitor({ output = '', mode = 'preferred', position = 'auto', scale = 1.5 })
 hl.config({ misc = { disable_hyprland_guiutils_check = true, disable_watchdog_warning = true }, debug = { disable_logs = false } })
 hl.bind('ALT + F4', hl.dsp.window.close())
--- This Xwayland exposes a 32-bit default visual. XTerm's core X11 erases
--- write RGB background pixels with an unused zero high byte. Ignore that
--- byte for XTerm so cleared cells stay filled; retain theme window opacity.
-hl.window_rule({ match = { class = '^(XTerm|UXTerm)$' }, force_rgbx = true })
-
 local optional = require('default.hypr.require_optional')
 for _, module in ipairs({ 'input', 'bindings', 'looknfeel', 'autostart' }) do
   optional.module('hypr.' .. module)

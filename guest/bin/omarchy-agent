@@ -1,0 +1,22 @@
+#!/bin/bash
+set -euo pipefail
+
+# omarchy:summary=Focus OpenCode Desktop or hand it a task
+# omarchy:args=[--prompt MESSAGE]
+# omarchy:examples=omarchy agent | omarchy agent prompt "Review this project"
+
+controller=${BIONICX_ROOTFS:?}/usr/lib/arlinux/guest/opencode-voice.py
+case ${1:-} in
+  '')
+    exec python3 "$controller" focus
+    ;;
+  --prompt)
+    shift
+    (($#)) || { echo 'usage: omarchy agent prompt MESSAGE' >&2; exit 2; }
+    exec python3 "$controller" prompt "$*"
+    ;;
+  *)
+    echo 'This Android session uses OpenCode Desktop; supported: omarchy agent [prompt MESSAGE]' >&2
+    exit 2
+    ;;
+esac
