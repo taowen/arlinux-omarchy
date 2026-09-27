@@ -26,7 +26,7 @@
       "QT_QPA_PLATFORM": "wayland",
       "SHELL": "${RUNTIME}/bin/bash",
       "TERM": "xterm-256color",
-      "PATH": "${RUNTIME}/usr/lib/arlinux/guest/bin:${RUNTIME}/usr/share/omarchy/bin:${RUNTIME}/usr/bin:${RUNTIME}/usr/sbin:/system/bin",
+      "PATH": "${RUNTIME}/usr/lib/arlinux/guest/bin:${RUNTIME}/usr/share/omarchy/bin:${RUNTIME}/usr/local/sbin:${RUNTIME}/usr/local/bin:${RUNTIME}/usr/bin:${RUNTIME}/usr/sbin:/system/bin",
       "LANG": "C.UTF-8",
       "LC_ALL": "C.UTF-8",
       "QSG_RHI_BACKEND": "opengl",
