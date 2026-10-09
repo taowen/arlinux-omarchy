@@ -64,11 +64,5 @@ export -p > "$XDG_RUNTIME_DIR/omarchy-session.env"
 hyprctl reload || true
 quickshell -n -p "$OMARCHY_PATH/shell" > "$XDG_RUNTIME_DIR/omarchy-shell.log" 2>&1 &
 shell_pid=$!
-(
-  cd "$BIONICX_ROOTFS"
-  exec env XDG_SESSION_TYPE=x11 "$BIONICX_ROOTFS/opt/OpenCode/ai.opencode.desktop" \
-    --force-renderer-accessibility
-) > "$XDG_RUNTIME_DIR/opencode-desktop.log" 2>&1 &
-opencode_pid=$!
-trap 'kill "$opencode_pid" "$shell_pid" 2>/dev/null || true; rm -f "$XDG_RUNTIME_DIR/omarchy-session.env"' EXIT
+trap 'kill "$shell_pid" 2>/dev/null || true; rm -f "$XDG_RUNTIME_DIR/omarchy-session.env"' EXIT
 wait "$shell_pid"

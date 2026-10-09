@@ -41,7 +41,8 @@ it includes OpenCode, files, development tools, themes, community plugins,
 and package management. Node.js, Ruby, and PHP/Composer can be installed on
 demand from the menu rather than inflating every new instance.
 
-OpenCode Desktop is the integrated agent. `omarchy agent` focuses its existing
+OpenCode Desktop is the optional integrated agent. Apps and the host AI voice
+entry download and install it on first use. `omarchy agent` focuses its existing
 window, while `omarchy agent prompt "TASK"` sends a task to its current session.
 The packaged Omarchy skill is adapted for OpenCode's global skill directory so
 the agent can discover desktop commands without assuming a PC's `sudo`,
