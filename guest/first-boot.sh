@@ -53,11 +53,12 @@ if [ ! -f "$runtime_epoch" ]; then
     : > "$runtime_epoch"
     exit 75
 fi
+/bin/sh /usr/lib/arlinux/install-mesa-arch.sh
 set -- foot curl ca-certificates ttf-dejavu noto-fonts-cjk noto-fonts-emoji fontconfig xorg-xrdb dbus \
     at-spi2-core ibus python-dbus python-atspi python-gobject python-pip mpg123 \
     wl-clipboard wtype xclip xdotool patch wayland libx11 libxcb libxxf86vm \
     gtk3 nss libxss libxtst libsecret alsa-plugins libpulse \
-    cups libdrm mesa pango cairo \
+    cups libdrm pango cairo \
     quickshell qt6-declarative qt6-svg qt6-wayland qt6-multimedia qt6-5compat qt6-imageformats \
     inotify-tools hyprutils hyprwire re2 readline jq socat imagemagick libnotify \
     ttf-jetbrains-mono-nerd noto-fonts bash-completion xdg-utils xdg-terminal-exec \
