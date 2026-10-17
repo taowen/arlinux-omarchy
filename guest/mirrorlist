@@ -1,2 +1,3 @@
+Server = https://mirrors.dotsrc.org/archlinuxarm/$arch/$repo
+Server = https://mirror.sg.gs/archlinuxarm/$arch/$repo
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxarm/$arch/$repo
-Server = https://mirrors.ustc.edu.cn/archlinuxarm/$arch/$repo

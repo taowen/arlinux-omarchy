@@ -45,37 +45,11 @@ if ! grep -q '^\[archlinuxcn\]$' "$root/etc/pacman.conf"; then
     printf '\n' >> "$root/etc/pacman.conf"
     cat "$root/usr/lib/arlinux/guest/archlinuxcn.conf" >> "$root/etc/pacman.conf"
 fi
-runtime_epoch=$root/var/lib/arlinux/runtime-epoch-1
-if [ ! -f "$runtime_epoch" ]; then
-    echo 'ARLINUX:Updating the base runtime...'
-    pacman -Syy --needed --noconfirm glibc coreutils bash pacman
-    mkdir -p "$(dirname "$runtime_epoch")"
-    : > "$runtime_epoch"
-    exit 75
-fi
-/bin/sh /usr/lib/arlinux/install-mesa-arch.sh
-set -- foot curl ca-certificates ttf-dejavu noto-fonts-cjk noto-fonts-emoji fontconfig xorg-xrdb dbus \
-    at-spi2-core ibus python-dbus python-atspi python-gobject python-pip mpg123 \
-    wl-clipboard wtype xclip xdotool patch wayland libx11 libxcb libxxf86vm \
-    gtk3 nss libxss libxtst libsecret alsa-plugins libpulse \
-    cups libdrm pango cairo \
-    quickshell qt6-declarative qt6-svg qt6-wayland qt6-multimedia qt6-5compat qt6-imageformats \
-    inotify-tools hyprutils hyprwire re2 readline jq socat imagemagick libnotify \
-    ttf-jetbrains-mono-nerd noto-fonts bash-completion xdg-utils xdg-terminal-exec \
-    neovim thunar papirus-icon-theme \
-    git ripgrep fd fzf bat eza zoxide tmux btop fastfetch lazygit gum \
-    evince imv mpv
-if ! pacman -Q "$@" >/dev/null 2>&1; then
-    echo 'ARLINUX:Updating Arch Linux ARM and installing desktop components...'
-    pacman -Syyu --needed --noconfirm "$@"
-fi
-
-if ! python3 -c 'import dogtail, edge_tts' >/dev/null 2>&1; then
-    echo 'ARLINUX:Installing desktop automation and online speech support...'
-    python3 -m pip install --break-system-packages --no-cache-dir \
-        --index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple \
-        'dogtail==1.0.5' 'edge-tts==7.2.8'
-fi
+# Published desktops contain all packages; never use the network during setup.
+[ -f /usr/share/arlinux/offline-desktop ] || {
+    echo 'Incomplete desktop bundle: import a prepared offline distribution ZIP.' >&2
+    exit 1
+}
 guest=$root/usr/lib/arlinux/guest
 python_source=$root/usr/lib/arlinux/python
 mkdir -p "$python_source/arlinux"
@@ -93,16 +67,3 @@ cat > "$root/etc/alsa/conf.d/99-arlinux-pulse.conf" <<'ALSA'
 pcm.!default { type pulse }
 ctl.!default { type pulse }
 ALSA
-
-# The compositor runs in Android. Extract only the CLI from the signed Arch
-# package, without installing the Linux compositor or its DRM backend. This
-# also avoids coupling the client to ARM repository Aquamarine rebuild timing.
-if [ ! -x "$root/usr/bin/hyprctl" ]; then
-    echo 'ARLINUX:Installing the Hyprland control client...'
-    archive=$(pacman -Spdd --print-format '%f' hyprland)
-    pacman -Sddw --noconfirm hyprland
-    bsdtar -xOf "$root/var/cache/pacman/pkg/$archive" usr/bin/hyprctl > "$root/usr/bin/hyprctl.new"
-    chmod 755 "$root/usr/bin/hyprctl.new"
-    mv "$root/usr/bin/hyprctl.new" "$root/usr/bin/hyprctl"
-    printf '%s\n' "$archive" > "$root/usr/lib/arlinux/hyprctl-package"
-fi

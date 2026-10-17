@@ -10,7 +10,10 @@ adaptation. It does not contain or require the Android host source.
 From an `arlinux-rootfs` checkout:
 
 ```bash
-./build.sh build omarchy
+./build.sh prepare omarchy
+# Install build/offline/omarchy/prepare.zip in a disposable build-only instance,
+# then export its prepared rootfs (never a personal home or application state).
+./build.sh offline omarchy /path/to/build-only-rootfs.tar
 ./build.sh verify out/omarchy.zip
 ```
 
@@ -24,7 +27,8 @@ for the interface implemented here.
 - `third_party/omarchy` tracks the upstream source as a submodule.
 - `tools/seed.sh` assembles and adapts the immutable desktop source.
 - `tools/post-seed.sh` initializes trusted package signing keys.
-- `guest/first-boot.sh` installs native desktop dependencies.
+- `guest/build-desktop.sh` installs desktop dependencies in a disposable build instance.
+- `guest/first-boot.sh` configures each imported instance without network access.
 - `guest/session.sh` starts the shell and OpenCode on anhyprland.
 
 The adaptation removes services owned by Android and keeps upstream source
@@ -33,9 +37,8 @@ does not belong in this repository.
 
 ## Mobile Omarchy desktop
 
-The bundle includes Omarchy's Quickshell desktop and all 22 pinned themes. On
-first launch, pacman installs Foot as the default terminal, Neovim, Thunar,
-Git and common shell tools, plus Evince, imv, and mpv. The desktop menu is
+The bundle includes Omarchy's Quickshell desktop and all 22 pinned themes. The offline bundle includes Foot as the default terminal, Neovim, Thunar,
+Git and common shell tools, plus Evince, imv, and mpv. First launch does not update packages or contact mirrors. The desktop menu is
 limited to actions that can run in the Android-hosted Arch Linux ARM session;
 it includes OpenCode, files, development tools, themes, community plugins,
 and package management. Node.js, Ruby, and PHP/Composer can be installed on
