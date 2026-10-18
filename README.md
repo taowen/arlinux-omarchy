@@ -7,7 +7,7 @@ a full Hyprland-oriented desktop using the host-provided anhyprland compositor.
 This repository contains only the Linux distribution recipe and its Omarchy
 adaptation. It does not contain or require the Android host source.
 
-构建与发布只遵循 [唯一构建与发布流程](https://github.com/taowen/arlinux-rootfs/blob/main/docs/BUILD.md)。本仓库提供发行版 recipe，不另维护构建入口。
+Builds and releases follow the [canonical build and release guide](https://github.com/taowen/arlinux-rootfs/blob/main/docs/BUILD.md). This repository provides a distribution recipe and does not maintain a separate build entry point.
 
 ## Repository layout
 
