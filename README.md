@@ -15,7 +15,7 @@ Builds and releases follow the [canonical build and release guide](https://githu
 - `third_party/omarchy` tracks the upstream source as a submodule.
 - `tools/seed.sh` assembles and adapts the immutable desktop source.
 - `tools/post-seed.sh` initializes trusted package signing keys.
-- `guest/build-desktop.sh` installs desktop dependencies in a disposable Linux/WSL QEMU chroot.
+- `guest/build-desktop.sh` installs desktop dependencies in a disposable Linux chroot on the build runner.
 - `guest/first-boot.sh` configures each imported instance without network access.
 - `guest/session.sh` starts the shell and OpenCode on anhyprland.
 
