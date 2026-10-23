@@ -227,6 +227,29 @@ def describe(*, app: str | None = None, root=None,
     return "\n".join(lines)
 
 
+def click(node, *, button: int = 1) -> tuple[int, int]:
+    """Click the center of ``node``'s reported extents with real X11 pointer input.
+
+    Use it when an Action call returned true but the application did not react,
+    for example a Qt check box whose ``Toggle`` changes its state without the
+    click handler. The coordinates come from the node's Component extents. Only
+    X11/Xwayland windows receive the click. Returns the clicked desktop point;
+    query the tree afterwards to verify the result.
+    """
+    import subprocess
+
+    import pyatspi
+
+    extents = node.queryComponent().getExtents(pyatspi.DESKTOP_COORDS)
+    if extents.width <= 0 or extents.height <= 0:
+        raise RuntimeError(f"node has no on-screen extents: {extents}")
+    x = extents.x + extents.width // 2
+    y = extents.y + extents.height // 2
+    subprocess.run(["xdotool", "mousemove", "--sync", str(x), str(y), "click", str(button)],
+                   check=True, timeout=10)
+    return x, y
+
+
 if __name__ == "__main__":
     import argparse
 
