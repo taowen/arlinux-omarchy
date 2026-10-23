@@ -77,14 +77,14 @@ if ! python3 -c 'import dogtail, edge_tts' >/dev/null 2>&1; then
         'dogtail==1.0.5' 'edge-tts==7.2.8'
 fi
 guest=$root/usr/lib/arlinux/guest
-python_source=$root/usr/lib/arlinux/python
-mkdir -p "$python_source/arlinux"
-cp "$guest/arlinux/"*.py "$python_source/arlinux/"
-python_site=$(python3 -c 'import sys; print("python%d.%d/site-packages" % sys.version_info[:2])')
-mkdir -p "$root/usr/lib/$python_site"
-printf '/usr/lib/arlinux/python\n' > "$root/usr/lib/$python_site/arlinux.pth"
-
-"$root/bin/sh" "$guest/opencode-instructions.sh"
+# Guest Tools' OpenCode launcher appends this distribution note to its own
+# managed instructions and provides the shared arlinux Python package.
+mkdir -p "$root/etc/arlinux" "$HOME/.config/opencode/skills"
+cp "$guest/opencode-omarchy-AGENTS.md" "$root/etc/arlinux/opencode-AGENTS.md"
+skill=$HOME/.config/opencode/skills/omarchy
+if [ ! -e "$skill" ] && [ ! -L "$skill" ]; then
+    ln -s "$guest/opencode-omarchy-skill" "$skill"
+fi
 
 mkdir -p "$root/etc/pulse/client.conf.d" "$root/etc/alsa/conf.d"
 printf 'default-server = unix:%s/runtime/pulse-native\nautospawn = no\nenable-shm = no\n' \
