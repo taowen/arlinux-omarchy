@@ -86,9 +86,8 @@ if [ ! -e "$skill" ] && [ ! -L "$skill" ]; then
     ln -s "$guest/opencode-omarchy-skill" "$skill"
 fi
 
-mkdir -p "$root/etc/pulse/client.conf.d" "$root/etc/alsa/conf.d"
-printf 'default-server = unix:%s/runtime/pulse-native\nautospawn = no\nenable-shm = no\n' \
-    "$BIONICX_FILES" > "$root/etc/pulse/client.conf.d/arlinux.conf"
+# The instance's first boot supplies its Android PulseAudio socket.
+mkdir -p "$root/etc/alsa/conf.d"
 cat > "$root/etc/alsa/conf.d/99-arlinux-pulse.conf" <<'ALSA'
 pcm.!default { type pulse }
 ctl.!default { type pulse }
